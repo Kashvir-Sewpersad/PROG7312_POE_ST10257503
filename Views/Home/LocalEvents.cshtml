@@ -1,0 +1,361 @@
+﻿<!-- Views/Home/LocalEvents.cshtml -->
+@model List<Programming_7312_Part_1.Models.Event>
+
+@{
+    ViewData["Title"] = "Local Events and Announcements";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Municipal Services</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="~/css/futuristic-styles.css" rel="stylesheet">
+    <style>
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .event-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+        .event-image {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .event-date-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(37, 140, 251, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .featured-section, .upcoming-section, .recommended-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #258cfb;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+            .section-title:after {
+                content: '';
+                position: absolute;
+                width: 50px;
+                height: 3px;
+                background-color: #258cfb;
+                bottom: -5px;
+                left: 0;
+            }
+
+        .category-filter {
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .event-tag {
+            display: inline-block;
+            background-color: rgba(37, 140, 251, 0.2);
+            color: #258cfb;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="events-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Page Title -->
+                    <div class="page-title">
+                        <h1 class="glowing-text">Local Events & Announcements</h1>
+                        <p class="subtitle">Stay informed about what's happening in your community</p>
+                    </div>
+
+                    <!-- Search and Filter Section -->
+                    <div class="neon-card mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="search-box">
+                                    <div class="input-group">
+                                        <input type="text" id="searchInput" class="form-control neon-input" placeholder="Search events..." value="@ViewBag.SearchTerm">
+                                        <button class="btn btn-primary neon-button" type="button" id="searchButton">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="category-filter">
+                                    <select id="categoryFilter" class="form-select neon-select">
+                                        <option value="">All Categories</option>
+                                        @if (ViewBag.Categories != null)
+                                        {
+                                            @foreach (string category in ViewBag.Categories)
+                                            {
+                                                <option value="@category" selected="@(ViewBag.SelectedCategory == category)">@category</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Events Section -->
+                    @if (ViewBag.FeaturedEvents != null && ViewBag.FeaturedEvents.Count > 0)
+                    {
+                        <div class="featured-section">
+                            <h3 class="section-title">Featured Events</h3>
+                            <div class="row">
+                                @foreach (var eventItem in ViewBag.FeaturedEvents)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="event-card neon-card">
+                                            <div class="position-relative">
+                                                <img src="@(string.IsNullOrEmpty(eventItem.ImagePath) ? "https://picsum.photos/seed/event" + eventItem.Id + "/600/400.jpg" : eventItem.ImagePath)"
+                                                     class="event-image" alt="@eventItem.Title">
+                                                <div class="event-date-badge">
+                                                    <i class="far fa-calendar-alt"></i> @eventItem.EventDate.ToString("MMM dd")
+                                                </div>
+                                            </div>
+                                            <div class="p-3">
+                                                <h5>@eventItem.Title</h5>
+                                                <p class="text-muted small">
+                                                    <i class="fas fa-map-marker-alt"></i> @eventItem.Location
+                                                </p>
+                                                <p class="card-text">@(eventItem.Description.Length > 100 ? eventItem.Description.Substring(0, 100) + "..." : eventItem.Description)</p>
+                                                <div class="mb-2">
+                                                    <span class="event-tag">@eventItem.Category</span>
+                                                </div>
+                                                <a href="#" class="btn btn-sm btn-outline-primary neon-button">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Recommended Events Section -->
+                    @if (ViewBag.RecommendedEvents != null && ViewBag.RecommendedEvents.Count > 0)
+                    {
+                        <div class="recommended-section">
+                            <h3 class="section-title">Recommended For You</h3>
+                            <div class="row">
+                                @foreach (var eventItem in ViewBag.RecommendedEvents)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="event-card neon-card">
+                                            <div class="position-relative">
+                                                <img src="@(string.IsNullOrEmpty(eventItem.ImagePath) ? "https://picsum.photos/seed/event" + eventItem.Id + "/600/400.jpg" : eventItem.ImagePath)"
+                                                     class="event-image" alt="@eventItem.Title">
+                                                <div class="event-date-badge">
+                                                    <i class="far fa-calendar-alt"></i> @eventItem.EventDate.ToString("MMM dd")
+                                                </div>
+                                            </div>
+                                            <div class="p-3">
+                                                <h5>@eventItem.Title</h5>
+                                                <p class="text-muted small">
+                                                    <i class="fas fa-map-marker-alt"></i> @eventItem.Location
+                                                </p>
+                                                <p class="card-text">@(eventItem.Description.Length > 100 ? eventItem.Description.Substring(0, 100) + "..." : eventItem.Description)</p>
+                                                <div class="mb-2">
+                                                    <span class="event-tag">@eventItem.Category</span>
+                                                </div>
+                                                <a href="#" class="btn btn-sm btn-outline-primary neon-button">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Upcoming Events Section -->
+                    @if (ViewBag.UpcomingEvents != null && ViewBag.UpcomingEvents.Count > 0)
+                    {
+                        <div class="upcoming-section">
+                            <h3 class="section-title">Upcoming Events</h3>
+                            <div class="row">
+                                @foreach (var eventItem in ViewBag.UpcomingEvents)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="event-card neon-card">
+                                            <div class="position-relative">
+                                                <img src="@(string.IsNullOrEmpty(eventItem.ImagePath) ? "https://picsum.photos/seed/event" + eventItem.Id + "/600/400.jpg" : eventItem.ImagePath)"
+                                                     class="event-image" alt="@eventItem.Title">
+                                                <div class="event-date-badge">
+                                                    <i class="far fa-calendar-alt"></i> @eventItem.EventDate.ToString("MMM dd")
+                                                </div>
+                                            </div>
+                                            <div class="p-3">
+                                                <h5>@eventItem.Title</h5>
+                                                <p class="text-muted small">
+                                                    <i class="fas fa-map-marker-alt"></i> @eventItem.Location
+                                                </p>
+                                                <p class="card-text">@(eventItem.Description.Length > 100 ? eventItem.Description.Substring(0, 100) + "..." : eventItem.Description)</p>
+                                                <div class="mb-2">
+                                                    <span class="event-tag">@eventItem.Category</span>
+                                                </div>
+                                                <a href="#" class="btn btn-sm btn-outline-primary neon-button">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- All Events Section -->
+                    <div class="all-events-section">
+                        <h3 class="section-title">All Events</h3>
+
+                        @if (Model.Count == 0)
+                        {
+                            <div class="no-events">
+                                <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                                <h4>No events found</h4>
+                                <p>Try adjusting your search or filter criteria</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                @foreach (var eventItem in Model)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="event-card neon-card">
+                                            <div class="position-relative">
+                                                <img src="@(string.IsNullOrEmpty(eventItem.ImagePath) ? "https://picsum.photos/seed/event" + eventItem.Id + "/600/400.jpg" : eventItem.ImagePath)"
+                                                     class="event-image" alt="@eventItem.Title">
+                                                <div class="event-date-badge">
+                                                    <i class="far fa-calendar-alt"></i> @eventItem.EventDate.ToString("MMM dd")
+                                                </div>
+                                            </div>
+                                            <div class="p-3">
+                                                <h5>@eventItem.Title</h5>
+                                                <p class="text-muted small">
+                                                    <i class="fas fa-map-marker-alt"></i> @eventItem.Location
+                                                </p>
+                                                <p class="card-text">@(eventItem.Description.Length > 100 ? eventItem.Description.Substring(0, 100) + "..." : eventItem.Description)</p>
+                                                <div class="mb-2">
+                                                    <span class="event-tag">@eventItem.Category</span>
+                                                    @if (eventItem.Tags != null && eventItem.Tags.Count > 0)
+                                                    {
+                                                        foreach (var tag in eventItem.Tags.Take(2))
+                                                        {
+                                                            <span class="event-tag">@tag</span>
+                                                        }
+                                                    }
+                                                </div>
+                                                <a href="#" class="btn btn-sm btn-outline-primary neon-button">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Back to Main Menu Button -->
+                    <div class="text-center mt-4">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-light neon-button">
+                            <i class="fas fa-arrow-left"></i> Back to Main Menu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const categoryFilter = document.getElementById('categoryFilter');
+
+            // Function to perform search
+            function performSearch() {
+                const searchTerm = searchInput.value.trim();
+                const category = categoryFilter.value;
+
+                let url = '@Url.Action("LocalEvents", "Home")';
+                let params = [];
+
+                if (searchTerm) {
+                    params.push('searchTerm=' + encodeURIComponent(searchTerm));
+                }
+
+                if (category) {
+                    params.push('category=' + encodeURIComponent(category));
+                }
+
+                if (params.length > 0) {
+                    url += '?' + params.join('&');
+                }
+
+                window.location.href = url;
+            }
+
+            // Search button click event
+            searchButton.addEventListener('click', performSearch);
+
+            // Enter key in search input
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Category filter change event
+            categoryFilter.addEventListener('change', function() {
+                performSearch();
+            });
+        });
+    </script>
+</body>
+</html>

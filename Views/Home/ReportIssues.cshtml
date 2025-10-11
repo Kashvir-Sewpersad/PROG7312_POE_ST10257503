@@ -1,0 +1,415 @@
+﻿@model Programming_7312_Part_1.Models.Issue
+
+@{
+    ViewData["Title"] = "Report Issues";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Municipal Services</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+   
+    <link href="~/css/futuristic-styles.css" rel="stylesheet">
+    <style>
+        /*  scrollable  dropdow */
+        .location-dropdown {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .location-option:hover {
+            background-color: rgba(37, 140, 251, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="report-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Page Title -->
+                    <div class="page-title">
+                        <h1 class="glowing-text">Report Issues</h1>
+                        <p class="subtitle">Help us improve by reporting problems you encounter</p>
+                    </div>
+                    <div class="neon-card">
+                        <!-- Success Message if the process is ssucessful it will exit  -->
+                        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+                        {
+                            <div class="neon-alert">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check-circle me-3" style="font-size: 1.5rem; color: #28a745;"></i>
+                                    <div>
+                                        <h5 class="mb-1" style="color: #28a745;">Success!</h5>
+                                        <p class="mb-0" style="color: #e0e0e0;">@ViewBag.SuccessMessage</p>
+                                        @if (!string.IsNullOrEmpty(ViewBag.EngagementMessage))
+                                        {
+                                            <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">@ViewBag.EngagementMessage</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Progress Section -->
+                        <div class="progress-section">
+                            <div class="progress-header d-flex justify-content-between">
+                                <span class="progress-title">Form Completion</span>
+                                <span class="progress-percentage" id="progressText">0%</span>
+                            </div>
+                            <div class="neon-progress">
+                                <div class="neon-progress-bar" id="progressBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        <!-- Milestones Section -->
+                        <div class="milestone-section">
+                            <h4 class="milestone-title">Progress Milestones</h4>
+                            <div class="milestone-grid">
+                                <div class="milestone-item" data-milestone="location">
+                                    <div class="milestone-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div class="milestone-text">Location Added</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="milestone-item" data-milestone="category">
+                                    <div class="milestone-icon"><i class="fas fa-tag"></i></div>
+                                    <div class="milestone-text">Category Selected</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="milestone-item" data-milestone="description">
+                                    <div class="milestone-icon"><i class="fas fa-align-left"></i></div>
+                                    <div class="milestone-text">Description Provided</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="milestone-item" data-milestone="attachment">
+                                    <div class="milestone-icon"><i class="fas fa-paperclip"></i></div>
+                                    <div class="milestone-text">Media Attached</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Form Section -->
+                        <div class="form-section">
+                            <form id="issueForm" asp-action="ReportIssues" method="post" enctype="multipart/form-data">
+                                <!-- Location field -->
+                                <!-- preloaded with 100 tokai addresses  -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Location" class="form-label">Location</label>
+                                    <div class="location-wrapper">
+                                        <input asp-for="Location" type="text" class="neon-input form-control" id="location" placeholder="Type to search or select from Tokai streets..." required autocomplete="off">
+                                        <i class="fas fa-chevron-down dropdown-toggle" id="locationToggle"></i>
+                                        <div class="location-dropdown d-none" id="locationDropdown">
+                                            <div class="location-option">Alphen Drive</div>
+                                            <div class="location-option">Bauhinia Street</div>
+                                            <div class="location-option">Bergvliet Road</div>
+                                            <div class="location-option">Bluegum Street</div>
+                                            <div class="location-option">Bokmakierie Road</div>
+                                            <div class="location-option">Botha Avenue</div>
+                                            <div class="location-option">Bouwer Street</div>
+                                            <div class="location-option">Bree Street</div>
+                                            <div class="location-option">Camphor Avenue</div>
+                                            <div class="location-option">Cedar Road</div>
+                                            <div class="location-option">Chapel Street</div>
+                                            <div class="location-option">Conifer Close</div>
+                                            <div class="location-option">Cypress Avenue</div>
+                                            <div class="location-option">De Waal Drive</div>
+                                            <div class="location-option">Disa Road</div>
+                                            <div class="location-option">Douglas Murray Drive</div>
+                                            <div class="location-option">Eagle Road</div>
+                                            <div class="location-option">Elm Street</div>
+                                            <div class="location-option">Eucalyptus Road</div>
+                                            <div class="location-option">Falcon Road</div>
+                                            <div class="location-option">Fig Street</div>
+                                            <div class="location-option">Forest Road</div>
+                                            <div class="location-option">Fynbos Lane</div>
+                                            <div class="location-option">Gum Tree Avenue</div>
+                                            <div class="location-option">Heather Road</div>
+                                            <div class="location-option">Ironwood Street</div>
+                                            <div class="location-option">Jacaranda Avenue</div>
+                                            <div class="location-option">Kestrel Road</div>
+                                            <div class="location-option">Kingfisher Close</div>
+                                            <div class="location-option">Larch Lane</div>
+                                            <div class="location-option">Laurel Road</div>
+                                            <div class="location-option">Lilac Street</div>
+                                            <div class="location-option">Linden Avenue</div>
+                                            <div class="location-option">Magnolia Road</div>
+                                            <div class="location-option">Maple Street</div>
+                                            <div class="location-option">Mimosa Road</div>
+                                            <div class="location-option">Mountain View Drive</div>
+                                            <div class="location-option">Oak Avenue</div>
+                                            <div class="location-option">Olive Street</div>
+                                            <div class="location-option">Orange Street</div>
+                                            <div class="location-option">Orchid Road</div>
+                                            <div class="location-option">Palm Avenue</div>
+                                            <div class="location-option">Peach Street</div>
+                                            <div class="location-option">Pine Road</div>
+                                            <div class="location-option">Pleasant Place</div>
+                                            <div class="location-option">Protea Street</div>
+                                            <div class="location-option">Redwood Drive</div>
+                                            <div class="location-option">Rose Street</div>
+                                            <div class="location-option">Rosemary Lane</div>
+                                            <div class="location-option">Rowan Road</div>
+                                            <div class="location-option">Saffron Street</div>
+                                            <div class="location-option">Sage Road</div>
+                                            <div class="location-option">Sarie Marais Street</div>
+                                            <div class="location-option">Silver Oak Avenue</div>
+                                            <div class="location-option">Syringa Street</div>
+                                            <div class="location-option">Teak Avenue</div>
+                                            <div class="location-option">Thyme Street</div>
+                                            <div class="location-option">Tokai Main Road</div>
+                                            <div class="location-option">Tokai Road</div>
+                                            <div class="location-option">Tulip Street</div>
+                                            <div class="location-option">Valley Road</div>
+                                            <div class="location-option">Vine Street</div>
+                                            <div class="location-option">Violet Road</div>
+                                            <div class="location-option">Walnut Street</div>
+                                            <div class="location-option">Wattle Road</div>
+                                            <div class="location-option">Weaver Road</div>
+                                            <div class="location-option">Willow Street</div>
+                                            <div class="location-option">Yellowwood Drive</div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Location" class="text-danger"></span>
+                                </div>
+
+                                <!-- Category  -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Category" class="form-label">Category</label>
+                                    <select asp-for="Category" class="neon-select form-control" required>
+                                        <option value="" disabled selected>Select a category</option>
+                                        @if (ViewBag.Categories != null)
+                                        {
+                                            @foreach (string category in ViewBag.Categories)
+                                            {
+                                                <option value="@category">@category</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <!-- preloaded on scrollable bar  -->
+                                            <option value="Roads">Roads & Infrastructure</option>
+                                            <option value="Water">Water & Sanitation</option>
+                                            <option value="Electricity">Electricity</option> 
+                                            <option value="Waste">Waste Management</option>
+                                            <option value="Public Safety">Public Safety</option>
+                                            <option value="Parks">Parks & Recreation</option>
+                                            <option value="Other">Other</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Category" class="text-danger"></span>
+                                </div>
+
+                                <!-- Description field -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Description" class="form-label">Description</label>
+                                    <textarea asp-for="Description" class="neon-textarea form-control" rows="4" placeholder="Describe the issue in detail..." required></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+
+                                <!-- File upload  -->
+                                <div class="neon-form-group">
+                                    <label class="form-label">Attach Media (Optional)</label>
+                                    <div class="file-upload-wrapper">
+                                        <input type="file" class="file-upload-input" name="attachment" id="attachment" accept="image/*,.pdf,.doc,.docx">
+                                        <div class="file-upload-content">
+                                            <div class="file-upload-icon">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                            </div>
+                                            <p class="mb-1" style="color: #e0e0e0; font-weight: 500;">Click to upload or drag and drop</p> <!-- drag and drop section  -->
+                                            <p class="mb-0" style="color: rgba(255,255,255,0.6); font-size: 0.85rem;">Images or files to help explain the issue</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="neon-button" id="submitBtn">
+                                        <span id="submitText">Submit Report</span>
+                                        <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Footer BACK TO MAIN (INDEX / HOME ) -->
+                        <a href="@Url.Action("Index", "Home")" id="backToMainBtn" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Main Menu 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const locationInput = document.getElementById('location');
+        const locationDropdown = document.getElementById('locationDropdown');
+        const locationToggle = document.getElementById('locationToggle');
+        const locationOptions = document.querySelectorAll('.location-option');
+
+        if (locationInput && locationDropdown && locationToggle) {
+            // Add click functionality to dropdown toggle
+            locationToggle.addEventListener('click', function() {
+                if (locationDropdown.classList.contains('d-none')) {
+                    locationDropdown.classList.remove('d-none');
+                    locationToggle.style.transform = 'translateY(-50%) rotate(180deg)';
+                } else {
+                    locationDropdown.classList.add('d-none');
+                    locationToggle.style.transform = 'translateY(-50%) rotate(0deg)';
+                }
+            });
+
+            // Add click functionality to each location option
+            locationOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    locationInput.value = this.textContent;
+                    locationDropdown.classList.add('d-none');
+                    locationToggle.style.transform = 'translateY(-50%) rotate(0deg)';
+                    updateProgress();
+                });
+            });
+
+
+
+
+            // Show dropdown when input is focused
+            locationInput.addEventListener('focus', function() {
+                locationDropdown.classList.remove('d-none');
+                locationToggle.style.transform = 'translateY(-50%) rotate(180deg)';
+            });
+
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.location-wrapper')) {
+                    locationDropdown.classList.add('d-none');
+                    locationToggle.style.transform = 'translateY(-50%) rotate(0deg)';
+                }
+            });
+
+
+
+
+
+            // Filter options as user types
+            locationInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                locationOptions.forEach(option => {
+                    if (option.textContent.toLowerCase().includes(searchTerm)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+                if (searchTerm.length > 0) {
+                    locationDropdown.classList.remove('d-none');
+                    locationToggle.style.transform = 'translateY(-50%) rotate(180deg)';
+                }
+                updateProgress();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('issueForm');
+            const inputs = form.querySelectorAll('input:not([type="submit"]), textarea, select');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const milestoneItems = document.querySelectorAll('.milestone-item');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+
+            const milestoneMap = {
+                "Location": "location",
+                "Category": "category",
+                "Description": "description",
+                "attachment": "attachment"
+            };
+
+            function updateProgress() {
+                let filled = 0;
+                const milestones = {};
+
+                inputs.forEach(input => {
+                    const isFilled = (input.type === "file" && input.files.length > 0) ||
+                                    (input.type !== "file" && input.value.trim() !== "");
+                    if (isFilled) {
+                        filled++;
+                        const fieldName = input.name || input.id;
+                        if (milestoneMap[fieldName]) {
+                            milestones[milestoneMap[fieldName]] = true;
+                        }
+                        input.classList.add('is-valid');
+                        input.classList.remove('is-invalid');
+                    } else {
+                        input.classList.remove('is-valid');
+                        if (input.hasAttribute('required')) {
+                            input.classList.add('is-invalid');
+                        }
+                    }
+                });
+
+                const percent = Math.round((filled / inputs.length) * 100);
+                progressBar.style.width = percent + "%";
+                progressText.textContent = percent + "%";
+
+                milestoneItems.forEach(item => {
+                    const milestone = item.getAttribute("data-milestone");
+                    if (milestones[milestone]) {
+                        item.classList.add("completed");
+                    } else {
+                        item.classList.remove("completed");
+                    }
+                });
+
+                const requiredFields = form.querySelectorAll('[required]');
+                let allRequiredFilled = true;
+                requiredFields.forEach(field => {
+                    if (field.value.trim() === "") allRequiredFilled = false;
+                });
+                submitBtn.disabled = !allRequiredFilled;
+            }
+
+            updateProgress();
+
+            inputs.forEach(input => {
+                input.addEventListener("input", updateProgress);
+                input.addEventListener("change", updateProgress);
+            });
+
+            const fileInput = document.getElementById('attachment');
+            const fileWrapper = document.querySelector('.file-upload-wrapper');
+            if (fileInput && fileWrapper) {
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        fileWrapper.style.borderColor = '#28a745';
+                        fileWrapper.style.background = 'rgba(40, 167, 69, 0.1)';
+                    } else {
+                        fileWrapper.style.borderColor = 'rgba(37, 140, 251, 0.3)';
+                        fileWrapper.style.background = 'rgba(255, 255, 255, 0.02)';
+                    }
+                });
+            }
+
+            form.addEventListener('submit', function(e) {
+                submitBtn.disabled = true;
+                submitText.textContent = "Submitting...";
+                submitSpinner.classList.remove('d-none');
+            });
+        });
+    </script>
+</body>
+</html>

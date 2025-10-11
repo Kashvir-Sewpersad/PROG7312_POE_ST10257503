@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Programming_7312_Part_1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Programming_7312_Part_1.styles.css" asp-append-version="true" />
+
+    <!--  video background -->
+    <style>
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Video background styles */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            background-color: #000; /* Fallback background color  should a royal stuff up occur */
+        }
+
+            .video-background video {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                min-width: 100%;
+                min-height: 100%;
+                width: auto;
+                height: auto;
+                transform: translateX(-50%) translateY(-50%);
+                object-fit: cover;
+            }
+
+        /* Content overlay for readability */
+        .content-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Adjust content to be more visible  */
+        body {
+            background-color: transparent !important;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: #f0f0f0 !important;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            color: white !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-control, .form-control-file, .btn {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+        }
+
+        .btn-primary {
+            background-color: rgba(37, 140, 251, 0.8);
+            border-color: rgba(37, 140, 251, 0.8);
+        }
+
+            .btn-primary:hover {
+                background-color: rgba(37, 140, 251, 1);
+                border-color: rgba(37, 140, 251, 1);
+            }
+
+        .btn-secondary {
+            background-color: rgba(108, 117, 125, 0.8);
+            border-color: rgba(108, 117, 125, 0.8);
+        }
+
+            .btn-secondary:hover {
+                background-color: rgba(108, 117, 125, 1);
+                border-color: rgba(108, 117, 125, 1);
+            }
+
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.8);
+            border-color: rgba(40, 167, 69, 0.8);
+        }
+
+        .progress {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Debugging styles */
+        .video-debug {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+    
+        <video autoplay muted loop id="background-video" playsinline>
+            
+            <source src="@Url.Content("~/BackgroundVideo/mixkit%20-%20stars%20-%20in%20-%20space%20-%20background%20-%201610%20-%20hd%20-%20ready.mp4")" type="video/mp4">
+           
+            <source src="@Url.Content("~/BackgroundVideo/space-background.mp4")" type="video/mp4">
+            <!-- Fallback message should -->
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Content Overlay -->
+    <div class="content-overlay"></div>
+
+    <!-- Debug info (remove when working) -->
+    <div class="video-debug" id="video-debug"></div>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Programming_7312_Part_1</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+           Municipal Service 2025 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Enhanced script to help with video loading and debugging -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('background-video');
+            const debugElement = document.getElementById('video-debug');
+
+            // Show debug info
+            debugElement.style.display = 'block';
+            debugElement.innerHTML = 'Loading video...';
+
+            // Function to update debug info
+            function updateDebug(message) {
+                debugElement.innerHTML = message;
+                console.log(message);
+            }
+
+            
+            video.addEventListener('error', function(e) {
+                updateDebug('Error loading video: ' + e.target.error.message);
+                
+                document.querySelector('.video-background').style.backgroundColor = '#000';
+
+              
+                document.querySelector('.video-background').style.backgroundImage = 'url(https://picsum.photos/seed/space/1920/1080.jpg)';
+                document.querySelector('.video-background').style.backgroundSize = 'cover';
+            });
+
+            video.addEventListener('loadeddata', function() {
+                updateDebug('Video loaded successfully');
+            });
+
+            // Try to play the video 
+            video.play().then(function() {
+                updateDebug('Video playing');
+            }).catch(function(error) {
+                updateDebug('Video autoplay failed: ' + error.message);
+
+                // Try to play after user interaction
+                document.addEventListener('click', function() {
+                    video.play().then(function() {
+                        updateDebug('Video started after user interaction');
+                    }).catch(function(e) {
+                        updateDebug('Still failed to play: ' + e.message);
+                    });
+                }, { once: true });
+            });
+
+            // Check video source URLs
+            const sources = video.querySelectorAll('source');
+            sources.forEach((source, index) => {
+                updateDebug('Source ' + index + ': ' + source.src);
+
+                // Check if source is accessible
+                fetch(source.src, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            updateDebug('Source ' + index + ' is accessible');
+                        } else {
+                            updateDebug('Source ' + index + ' returned status: ' + response.status);
+                        }
+                    })
+                    .catch(error => {
+                        updateDebug('Error checking source ' + index + ': ' + error.message);
+                    });
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

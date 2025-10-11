@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Municipal Services App";
+}
+<!-- home page - used to redirect to other pages -->
+<div class="home-container">
+    <div class="animated-title">
+        <h1 class="glowing-text">Municipal Services</h1>
+        <p class="subtitle">Your One Stop Shop For A Better Tomorrow</p>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu-item fade-in">
+            <div class="neon-border">
+                <div class="menu-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2>Report Issues</h2>
+                <p>Notify us about problems in your community</p>
+                <a href="@Url.Action("ReportIssues")" class="neon-button">Report Now</a>
+            </div>
+        </div>
+
+        <!-- Views/Home/Index.cshtml (update the Local Events menu item) -->
+        <div class="menu-item fade-in">
+            <div class="neon-border">
+                <div class="menu-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h2>Local Events</h2>
+                <p>Stay updated on community happenings</p>
+                <a href="@Url.Action("LocalEvents")" class="neon-button">View Events</a> <!-- Changed from disabled to enabled -->
+            </div>
+        </div>
+
+        <div class="menu-item fade-in">
+            <div class="neon-border">
+                <div class="menu-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <h2>Service Status</h2>
+                <p>Track your service requests</p>
+                <button disabled class="neon-button disabled">Coming Soon</button> <!-- disabled for now  -->
+            </div>
+        </div>
+    </div>
+    <!-- added a simpke animation   -->
+    <div class="pulse-container">
+        <div class="pulse-circle"></div>
+        <div class="pulse-circle"></div>
+        <div class="pulse-circle"></div>
+    </div>
+</div>
+
