@@ -1,0 +1,33 @@
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\appsettings.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.staticwebassets.runtime.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.staticwebassets.endpoints.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.exe
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.deps.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.runtimeconfig.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.dll
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\bin\Debug\net8.0\Programming 7312 Part-1.pdb
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.AssemblyInfoInputs.cache
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.AssemblyInfo.cs
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.csproj.CoreCompileInputs.cache
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.RazorAssemblyInfo.cache
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.RazorAssemblyInfo.cs
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.sourcelink.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\scopedcss\bundle\Programming 7312 Part-1.styles.css
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\scopedcss\projectbundle\Programming 7312 Part-1.bundle.scp.css
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.dll
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\refint\Programming 7312 Part-1.dll
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.pdb
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\Programming 7312 Part-1.genruntimeconfig.cache
+C:\Users\kashc\RiderProjects\Programming-7312-Part-1-master\obj\Debug\net8.0\ref\Programming 7312 Part-1.dll
