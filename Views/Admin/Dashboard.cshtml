@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="report-container">
+    <div class="page-title">
+        <h1 class="glowing-text">Admin Dashboard</h1>
+        <p class="subtitle">Manage reported issues and events</p>
+    </div>
+
+    <div class="neon-card">
+        <form method="post" action="@Url.Action("Logout")" style="text-align: right; margin-bottom: 2rem;">
+            <button type="submit" class="back-btn">Logout</button>
+        </form>
+
+        <h2>Reported Issues</h2>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var issue in ViewBag.Issues)
+                {
+                    <tr>
+                        <td>@issue.Id</td>
+                        <td>@issue.Category</td>
+                        <td>@issue.Description</td>
+                        <td>@issue.Location</td>
+                        <td>@issue.Status</td>
+                        <td>@issue.ReportedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h2 style="margin-top: 3rem;">Events</h2>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var eventItem in ViewBag.Events)
+                {
+                    <tr>
+                        <td>@eventItem.Title</td>
+                        <td>@eventItem.Category</td>
+                        <td>@eventItem.EventDate.ToString("yyyy-MM-dd")</td>
+                        <td>@eventItem.Location</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

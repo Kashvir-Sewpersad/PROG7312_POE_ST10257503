@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Admin Login";
+}
+
+<div class="report-container">
+    <div class="page-title">
+        <h1 class="glowing-text">Admin Login</h1>
+        <p class="subtitle">Enter the password to access the dashboard</p>
+    </div>
+
+    <div class="neon-card">
+        <form method="post" class="form-section">
+            <div class="neon-form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="neon-input" required />
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <button type="submit" class="neon-button">Login</button>
+        </form>
+    </div>
+</div>
