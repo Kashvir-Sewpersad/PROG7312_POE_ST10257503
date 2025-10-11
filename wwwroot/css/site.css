@@ -362,11 +362,12 @@ body {
 /* Futuristic Report Issues Styles */
 
 body {
-    background: #ffffff;
+    background: linear-gradient(135deg, #007bff 0%, #00d4ff 100%);
     color: #000000;
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
+    transition: background 1s ease;
 }
 
 /* Animated background particles - hidden */
