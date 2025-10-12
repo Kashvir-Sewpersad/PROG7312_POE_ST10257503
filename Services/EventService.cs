@@ -239,12 +239,13 @@ namespace Programming_7312_Part_1.Services
             searchTerm = searchTerm.ToLower().Trim();
 
             return _context.Events
+                .AsEnumerable()
                 .Where(e =>
                     e.Title.ToLower().Contains(searchTerm) ||
                     e.Description.ToLower().Contains(searchTerm) ||
                     e.Category.ToLower().Contains(searchTerm) ||
                     e.Location.ToLower().Contains(searchTerm) ||
-                    e.Tags.Any(tag => tag.ToLower().Contains(searchTerm)))
+                    (e.Tags != null && e.Tags.IndexOf(searchTerm.ToLower()) >= 0))
                 .OrderBy(e => e.EventDate)
                 .ToList();
         }
@@ -390,12 +391,13 @@ namespace Programming_7312_Part_1.Services
                 foreach (var search in topSearches)
                 {
                     var events = _context.Events
+                        .AsEnumerable()
                         .Where(e => !usedEventIds.Contains(e.Id) && (
                             e.Title.ToLower().Contains(search) ||
                             e.Description.ToLower().Contains(search) ||
                             e.Category.ToLower().Contains(search) ||
                             e.Location.ToLower().Contains(search) ||
-                            e.Tags.Any(tag => tag.ToLower().Contains(search))))
+                            (e.Tags != null && e.Tags.IndexOf(search.ToLower()) >= 0)))
                         .OrderByDescending(e => e.Upvotes - e.Downvotes)
                         .ThenBy(e => e.EventDate)
                         .Take(2) // Take up to 2 events per search term
@@ -448,12 +450,17 @@ namespace Programming_7312_Part_1.Services
 
         public List<Event> GetRecommendedEventsByCategory(string category, int count = 3)
         {
+            if (string.IsNullOrEmpty(category))
+            {
+                return new List<Event>();
+            }
+            
             // Recommendation based on upvotes and search history, filtered by category
             var recommendedEvents = new List<Event>();
 
             // First, prioritize events with high upvotes in this category
             var highVotedEvents = _context.Events
-                .Where(e => e.Category.Equals(category, StringComparison.OrdinalIgnoreCase) && e.Upvotes > 0)
+                .Where(e => e.Category.ToLower() == category.ToLower() && e.Upvotes > 0)
                 .OrderByDescending(e => e.Upvotes - e.Downvotes) // Net positive votes
                 .ThenBy(e => e.EventDate)
                 .Take(count)
@@ -475,13 +482,14 @@ namespace Programming_7312_Part_1.Services
                 foreach (var search in topSearches)
                 {
                     var events = _context.Events
+                        .AsEnumerable()
                         .Where(e => e.Category.Equals(category, StringComparison.OrdinalIgnoreCase) &&
                                     !usedEventIds.Contains(e.Id) && (
                             e.Title.ToLower().Contains(search) ||
                             e.Description.ToLower().Contains(search) ||
                             e.Category.ToLower().Contains(search) ||
                             e.Location.ToLower().Contains(search) ||
-                            e.Tags.Any(tag => tag.ToLower().Contains(search))))
+                            (e.Tags != null && e.Tags.IndexOf(search.ToLower()) >= 0)))
                         .OrderByDescending(e => e.Upvotes - e.Downvotes)
                         .ThenBy(e => e.EventDate)
                         .Take(2) // Take up to 2 events per search term
@@ -516,5 +524,3 @@ namespace Programming_7312_Part_1.Services
         }
     }
 }
-
-
