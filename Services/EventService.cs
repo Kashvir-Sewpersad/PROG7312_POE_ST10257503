@@ -487,7 +487,7 @@ namespace Programming_7312_Part_1.Services
             {
                 return new List<Event>();
             }
-            
+
             // Recommendation based on upvotes and search history, filtered by category
             var recommendedEvents = new List<Event>();
 
@@ -554,6 +554,74 @@ namespace Programming_7312_Part_1.Services
             }
 
             return recommendedEvents.Take(count).ToList();
+        }
+
+        public bool DeleteEvent(int id)
+        {
+            var eventItem = _context.Events.FirstOrDefault(e => e.Id == id);
+            if (eventItem == null)
+            {
+                return false;
+            }
+
+            // Store old values for cleanup
+            var oldDateKey = eventItem.EventDate.Date;
+            var oldCategory = eventItem.Category;
+
+            // Remove from database
+            _context.Events.Remove(eventItem);
+            _context.SaveChanges();
+
+            // Update data structures
+            RemoveEventFromDataStructures(eventItem, oldDateKey, oldCategory);
+
+            return true;
+        }
+
+        private void RemoveEventFromDataStructures(Event eventItem, DateTime oldDateKey, string oldCategory)
+        {
+            // Remove from EventsByDate
+            if (EventsByDate.ContainsKey(oldDateKey))
+            {
+                EventsByDate[oldDateKey].RemoveAll(e => e.Id == eventItem.Id);
+                if (EventsByDate[oldDateKey].Count == 0)
+                {
+                    EventsByDate.Remove(oldDateKey);
+                }
+            }
+
+            // Remove from EventsByCategory
+            if (EventsByCategory.ContainsKey(oldCategory))
+            {
+                EventsByCategory[oldCategory].RemoveAll(e => e.Id == eventItem.Id);
+                if (EventsByCategory[oldCategory].Count == 0)
+                {
+                    EventsByCategory.Remove(oldCategory);
+                    // Note: UniqueCategories is a HashSet, so removing the category if no events left
+                    // But since it's a set of all categories, we might not remove it if other events exist, but for simplicity, we'll leave it
+                }
+            }
+
+            // Remove from RecentEvents (Queue)
+            var recentList = RecentEvents.ToList();
+            recentList.RemoveAll(e => e.Id == eventItem.Id);
+            RecentEvents.Clear();
+            foreach (var e in recentList)
+            {
+                RecentEvents.Enqueue(e);
+            }
+
+            // Remove from FeaturedEvents (Stack)
+            var featuredList = FeaturedEvents.ToList();
+            featuredList.RemoveAll(e => e.Id == eventItem.Id);
+            FeaturedEvents.Clear();
+            foreach (var e in featuredList)
+            {
+                FeaturedEvents.Push(e);
+            }
+
+            // Remove from UpcomingEvents
+            UpcomingEvents.Remove(eventItem.EventDate);
         }
     }
 }

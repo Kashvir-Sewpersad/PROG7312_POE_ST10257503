@@ -38,7 +38,7 @@
 
             <div class="mb-3">
                 <label for="EventDate" class="form-label">Event Date</label>
-                <input id="EventDate" name="EventDate" type="datetime-local" class="form-control neon-input" required />
+                <input id="EventDate" name="EventDate" type="datetime-local" class="form-control neon-input" required min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
             </div>
 
             <div class="mb-3">

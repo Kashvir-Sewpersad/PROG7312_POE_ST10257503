@@ -231,6 +231,28 @@ namespace Programming_7312_Part_1.Controllers
             }
         }
 
+        // POST: Admin/DeleteEvent
+        [HttpPost]
+        public IActionResult DeleteEvent(int id)
+        {
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            var success = _eventService.DeleteEvent(id);
+            if (!success)
+            {
+                TempData["Error"] = "Failed to delete event.";
+            }
+            else
+            {
+                TempData["Success"] = "Event deleted successfully.";
+            }
+
+            return RedirectToAction("Dashboard");
+        }
+
         // POST: Admin/Logout
         [HttpPost]
         public IActionResult Logout()
