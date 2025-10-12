@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Programming_7312_Part_1.Models;
 using Programming_7312_Part_1.Services;
 using System.Linq;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Programming_7312_Part_1.Controllers
 {
@@ -68,6 +71,73 @@ namespace Programming_7312_Part_1.Controllers
 
             ViewBag.TagsInput = string.Join(", ", eventItem.Tags ?? new List<string>());
             return View(eventItem);
+        }
+
+        // GET: Admin/CreateEvent
+        public IActionResult CreateEvent()
+        {
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            return View();
+        }
+
+        // POST: Admin/CreateEvent
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent(Event model, string tagsInput, IFormFile imageFile)
+        {
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Handle image upload
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(imageFile.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(fileStream);
+                }
+
+                model.ImagePath = "/uploads/" + uniqueFileName;
+            }
+
+            // Parse tags
+            if (!string.IsNullOrWhiteSpace(tagsInput))
+            {
+                model.Tags = tagsInput.Split(',')
+                    .Select(t => t.Trim())
+                    .Where(t => !string.IsNullOrWhiteSpace(t))
+                    .ToList();
+            }
+            else
+            {
+                model.Tags = new List<string>();
+            }
+
+            // Generate new ID
+            var allEvents = _eventService.GetAllEvents();
+            model.Id = allEvents.Any() ? allEvents.Max(e => e.Id) + 1 : 1;
+
+            _eventService.AddEvent(model);
+
+            return RedirectToAction("Dashboard");
         }
 
         // POST: Admin/EditEvent
