@@ -79,9 +79,18 @@ namespace Programming_7312_Part_1.Controllers
             return View(new Issue());
         }
 
-        public IActionResult LocalEvents(string category = "", string searchTerm = "")
+        public IActionResult LocalEvents(string category = "", string searchTerm = "", DateTime? startDate = null, DateTime? endDate = null)
         {
             ViewBag.Categories = _eventService.UniqueCategories.ToList();
+
+            // Set default start date to current date if not provided
+            if (!startDate.HasValue)
+            {
+                startDate = DateTime.Now.Date;
+            }
+
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
 
             List<Event> events;
 
@@ -111,6 +120,48 @@ namespace Programming_7312_Part_1.Controllers
                 ViewBag.UpcomingEvents = _eventService.GetUpcomingEvents(3);
                 ViewBag.FeaturedEvents = _eventService.GetFeaturedEvents(3);
                 ViewBag.RecommendedEvents = _eventService.GetRecommendedEvents(3);
+            }
+
+            // Apply date filtering if dates are provided
+            if (startDate.HasValue || endDate.HasValue)
+            {
+                events = events.Where(e =>
+                {
+                    bool matchesStart = !startDate.HasValue || e.EventDate.Date >= startDate.Value.Date;
+                    bool matchesEnd = !endDate.HasValue || e.EventDate.Date <= endDate.Value.Date;
+                    return matchesStart && matchesEnd;
+                }).ToList();
+
+                // Also filter the section events by date
+                if (ViewBag.UpcomingEvents != null)
+                {
+                    ViewBag.UpcomingEvents = ((List<Event>)ViewBag.UpcomingEvents).Where(e =>
+                    {
+                        bool matchesStart = !startDate.HasValue || e.EventDate.Date >= startDate.Value.Date;
+                        bool matchesEnd = !endDate.HasValue || e.EventDate.Date <= endDate.Value.Date;
+                        return matchesStart && matchesEnd;
+                    }).ToList();
+                }
+
+                if (ViewBag.FeaturedEvents != null)
+                {
+                    ViewBag.FeaturedEvents = ((List<Event>)ViewBag.FeaturedEvents).Where(e =>
+                    {
+                        bool matchesStart = !startDate.HasValue || e.EventDate.Date >= startDate.Value.Date;
+                        bool matchesEnd = !endDate.HasValue || e.EventDate.Date <= endDate.Value.Date;
+                        return matchesStart && matchesEnd;
+                    }).ToList();
+                }
+
+                if (ViewBag.RecommendedEvents != null)
+                {
+                    ViewBag.RecommendedEvents = ((List<Event>)ViewBag.RecommendedEvents).Where(e =>
+                    {
+                        bool matchesStart = !startDate.HasValue || e.EventDate.Date >= startDate.Value.Date;
+                        bool matchesEnd = !endDate.HasValue || e.EventDate.Date <= endDate.Value.Date;
+                        return matchesStart && matchesEnd;
+                    }).ToList();
+                }
             }
 
             return View(events);

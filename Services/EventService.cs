@@ -81,7 +81,8 @@ namespace Programming_7312_Part_1.Services
                     Category = "Environment",
                     EventDate = DateTime.Now.AddDays(7),
                     Location = "Claremont",
-                    Tags = new List<string> { "environment", "community", "volunteer" }
+                    Tags = new List<string> { "environment", "community", "volunteer" },
+                    ImagePath = "/Images/pothole.jpg"
                 },
                 new Event
                 {
@@ -90,7 +91,8 @@ namespace Programming_7312_Part_1.Services
                     Category = "Entertainment",
                     EventDate = DateTime.Now.AddDays(14),
                     Location = "Tokai",
-                    Tags = new List<string> { "outdoor", "family","environment" }
+                    Tags = new List<string> { "outdoor", "family","environment" },
+                    ImagePath = "/Images/newlands.jpg"
                 },
                 new Event
                 {
@@ -99,7 +101,8 @@ namespace Programming_7312_Part_1.Services
                     Category = "Education",
                     EventDate = DateTime.Now.AddDays(21),
                     Location = "Newlands Cricket Ground",
-                    Tags = new List<string> {  "education", "innovation", "workshop" }
+                    Tags = new List<string> {  "education", "innovation", "workshop" },
+                    ImagePath = "/Images/crime.jpg"
                 },
                 new Event
                 {
@@ -117,7 +120,8 @@ namespace Programming_7312_Part_1.Services
                     Category = "Sports",
                     EventDate = DateTime.Now.AddDays(30),
                     Location = "Newlands",
-                    Tags = new List<string> { "sports", "youth", "tournament", "outdoor" }
+                    Tags = new List<string> { "sports", "youth", "tournament", "outdoor" },
+                    ImagePath = "/Images/comunity.jpg"
                 }
             };
 
