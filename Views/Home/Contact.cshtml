@@ -17,17 +17,6 @@
     <link href="~/css/site.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Animated background -->
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
 
     <div class="report-container">
         <div class="container">
@@ -46,11 +35,11 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-check-circle me-3" style="font-size: 1.5rem; color: #28a745;"></i>
                                     <div>
-                                        <h5 class="mb-1" style="color: #28a745;">Success!</h5>
-                                        <p class="mb-0" style="color: #e0e0e0;">@ViewBag.SuccessMessage</p>
+                                        <h5 class="mb-1" style="color: #000000;">Success!</h5>
+                                        <p class="mb-0" style="color: #000000;">@ViewBag.SuccessMessage</p>
                                         @if (!string.IsNullOrEmpty(ViewBag.EngagementMessage))
                                         {
-                                            <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">@ViewBag.EngagementMessage</p>
+                                            <p class="mb-0" style="color: #000000; font-size: 0.9rem;">@ViewBag.EngagementMessage</p>
                                         }
                                     </div>
                                 </div>

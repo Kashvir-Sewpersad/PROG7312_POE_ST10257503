@@ -12,7 +12,7 @@ namespace Programming_7312_Part_1.Services
         private readonly ApplicationDbContext _context;
 
         // Sorted dictionary for organizing events by date
-        public SortedDictionary<DateTime, List<Event>> EventsByDate { get; } = new SortedDictionary<DateTime, List<Event>>();
+        public SortedDictionary<DateTime, HashSet<Event>> EventsByDate { get; } = new SortedDictionary<DateTime, HashSet<Event>>();
 
         // Dictionary for organizing events by category
         public Dictionary<string, List<Event>> EventsByCategory { get; } = new Dictionary<string, List<Event>>();
@@ -30,7 +30,7 @@ namespace Programming_7312_Part_1.Services
         public Stack<Event> FeaturedEvents { get; } = new Stack<Event>();
 
         // Priority queue for upcoming events (prioritized by date)
-        public SortedDictionary<DateTime, List<Event>> UpcomingEvents { get; } = new SortedDictionary<DateTime, List<Event>>();
+        public SortedDictionary<DateTime, HashSet<Event>> UpcomingEvents { get; } = new SortedDictionary<DateTime, HashSet<Event>>();
 
         // Dictionary for user search history
         public Dictionary<string, int> SearchHistory { get; } = new Dictionary<string, int>();
@@ -152,7 +152,7 @@ namespace Programming_7312_Part_1.Services
             var dateKey = eventItem.EventDate.Date;
             if (!EventsByDate.ContainsKey(dateKey))
             {
-                EventsByDate[dateKey] = new List<Event>();
+                EventsByDate[dateKey] = new HashSet<Event>();
             }
             EventsByDate[dateKey].Add(eventItem);
 
@@ -198,7 +198,7 @@ namespace Programming_7312_Part_1.Services
             // Add to UpcomingEvents
             if (!UpcomingEvents.ContainsKey(eventItem.EventDate))
             {
-                UpcomingEvents[eventItem.EventDate] = new List<Event>();
+                UpcomingEvents[eventItem.EventDate] = new HashSet<Event>();
             }
             UpcomingEvents[eventItem.EventDate].Add(eventItem);
         }
@@ -357,7 +357,7 @@ namespace Programming_7312_Part_1.Services
                 // Remove from old date
                 if (EventsByDate.ContainsKey(oldDateKey))
                 {
-                    EventsByDate[oldDateKey].RemoveAll(e => e.Id == updatedEvent.Id);
+                    EventsByDate[oldDateKey].RemoveWhere(e => e.Id == updatedEvent.Id);
                     if (EventsByDate[oldDateKey].Count == 0)
                     {
                         EventsByDate.Remove(oldDateKey);
@@ -367,7 +367,7 @@ namespace Programming_7312_Part_1.Services
                 // Add to new date
                 if (!EventsByDate.ContainsKey(newDateKey))
                 {
-                    EventsByDate[newDateKey] = new List<Event>();
+                    EventsByDate[newDateKey] = new HashSet<Event>();
                 }
                 EventsByDate[newDateKey].Add(updatedEvent);
             }
@@ -375,7 +375,7 @@ namespace Programming_7312_Part_1.Services
             // Update UpcomingEvents
             if (UpcomingEvents.ContainsKey(oldEventDate))
             {
-                UpcomingEvents[oldEventDate].RemoveAll(e => e.Id == updatedEvent.Id);
+                UpcomingEvents[oldEventDate].RemoveWhere(e => e.Id == updatedEvent.Id);
                 if (UpcomingEvents[oldEventDate].Count == 0)
                 {
                     UpcomingEvents.Remove(oldEventDate);
@@ -383,7 +383,7 @@ namespace Programming_7312_Part_1.Services
             }
             if (!UpcomingEvents.ContainsKey(updatedEvent.EventDate))
             {
-                UpcomingEvents[updatedEvent.EventDate] = new List<Event>();
+                UpcomingEvents[updatedEvent.EventDate] = new HashSet<Event>();
             }
             UpcomingEvents[updatedEvent.EventDate].Add(updatedEvent);
         }
@@ -607,7 +607,7 @@ namespace Programming_7312_Part_1.Services
             var oldDateKey = oldEventDate.Date;
             if (EventsByDate.ContainsKey(oldDateKey))
             {
-                EventsByDate[oldDateKey].RemoveAll(e => e.Id == eventItem.Id);
+                EventsByDate[oldDateKey].RemoveWhere(e => e.Id == eventItem.Id);
                 if (EventsByDate[oldDateKey].Count == 0)
                 {
                     EventsByDate.Remove(oldDateKey);
@@ -644,7 +644,7 @@ namespace Programming_7312_Part_1.Services
             // Remove from UpcomingEvents
             if (UpcomingEvents.ContainsKey(oldEventDate))
             {
-                UpcomingEvents[oldEventDate].RemoveAll(e => e.Id == eventItem.Id);
+                UpcomingEvents[oldEventDate].RemoveWhere(e => e.Id == eventItem.Id);
                 if (UpcomingEvents[oldEventDate].Count == 0)
                 {
                     UpcomingEvents.Remove(oldEventDate);
