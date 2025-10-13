@@ -1,0 +1,257 @@
+@model Programming_7312_Part_1.Models.Contact
+
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Municipal Services</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <link href="~/css/futuristic-styles.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="report-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Page Title -->
+                    <div class="page-title">
+                        <h1 class="glowing-text">Contact Us</h1>
+                        <p class="subtitle">Get in touch with our municipal services team</p>
+                    </div>
+                    <div class="neon-card">
+                        <!-- Success Message -->
+                        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+                        {
+                            <div class="neon-alert">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check-circle me-3" style="font-size: 1.5rem; color: #28a745;"></i>
+                                    <div>
+                                        <h5 class="mb-1" style="color: #28a745;">Success!</h5>
+                                        <p class="mb-0" style="color: #e0e0e0;">@ViewBag.SuccessMessage</p>
+                                        @if (!string.IsNullOrEmpty(ViewBag.EngagementMessage))
+                                        {
+                                            <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">@ViewBag.EngagementMessage</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                        <!-- Progress Section -->
+                        <div class="progress-section">
+                            <div class="progress-header d-flex justify-content-between">
+                                <span class="progress-title">Form Completion</span>
+                                <span class="progress-percentage" id="progressText">0%</span>
+                            </div>
+                            <div class="neon-progress">
+                                <div class="neon-progress-bar" id="progressBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Milestones Section -->
+                        <div class="milestone-section">
+                            <h4 class="milestone-title">Progress Milestones</h4>
+                            <div class="milestone-grid">
+                                <div class="milestone-item" data-milestone="name">
+                                    <div class="milestone-icon"><i class="fas fa-user"></i></div>
+                                    <div class="milestone-text">Name Provided</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="milestone-item" data-milestone="email">
+                                    <div class="milestone-icon"><i class="fas fa-envelope"></i></div>
+                                    <div class="milestone-text">Email Added</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="milestone-item" data-milestone="subject">
+                                    <div class="milestone-icon"><i class="fas fa-tag"></i></div>
+                                    <div class="milestone-text">Subject Selected</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="milestone-item" data-milestone="message">
+                                    <div class="milestone-icon"><i class="fas fa-align-left"></i></div>
+                                    <div class="milestone-text">Message Written</div>
+                                    <div class="milestone-check"><i class="fas fa-check"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Section -->
+                        <div class="form-section">
+                            <form id="contactForm" asp-action="Contact" method="post">
+                                <!-- Name field -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Name" class="form-label">Full Name</label>
+                                    <input asp-for="Name" type="text" class="neon-input form-control" placeholder="Enter your full name" required>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <!-- Email field -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Email" class="form-label">Email Address</label>
+                                    <input asp-for="Email" type="email" class="neon-input form-control" placeholder="Enter your email address" required>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+
+                                <!-- Phone field (optional) -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Phone" class="form-label">Phone Number (Optional)</label>
+                                    <input asp-for="Phone" type="tel" class="neon-input form-control" placeholder="Enter your phone number">
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+
+                                <!-- Category -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Category" class="form-label">Category</label>
+                                    <select asp-for="Category" class="neon-select form-control">
+                                        <option value="" disabled selected>Select a category</option>
+                                        @if (ViewBag.Categories != null)
+                                        {
+                                            @foreach (string category in ViewBag.Categories)
+                                            {
+                                                <option value="@category">@category</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="General Inquiry">General Inquiry</option>
+                                            <option value="Technical Support">Technical Support</option>
+                                            <option value="Feedback">Feedback</option>
+                                            <option value="Complaint">Complaint</option>
+                                            <option value="Other">Other</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Category" class="text-danger"></span>
+                                </div>
+
+                                <!-- Subject field -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Subject" class="form-label">Subject</label>
+                                    <input asp-for="Subject" type="text" class="neon-input form-control" placeholder="Brief subject of your message" required>
+                                    <span asp-validation-for="Subject" class="text-danger"></span>
+                                </div>
+
+                                <!-- Message field -->
+                                <div class="neon-form-group">
+                                    <label asp-for="Message" class="form-label">Message</label>
+                                    <textarea asp-for="Message" class="neon-textarea form-control" rows="5" placeholder="Please provide details about your inquiry..." required></textarea>
+                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="neon-button" id="submitBtn">
+                                        <span id="submitText">Send Message</span>
+                                        <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Footer BACK TO MAIN (INDEX / HOME ) -->
+                        <a href="@Url.Action("Index", "Home")" id="backToMainBtn" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Main Menu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const inputs = form.querySelectorAll('input:not([type="submit"]), textarea, select');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const milestoneItems = document.querySelectorAll('.milestone-item');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+
+            const milestoneMap = {
+                "Name": "name",
+                "Email": "email",
+                "Subject": "subject",
+                "Message": "message"
+            };
+
+            function updateProgress() {
+                let filled = 0;
+                const milestones = {};
+
+                inputs.forEach(input => {
+                    const isFilled = input.value.trim() !== "";
+                    if (isFilled) {
+                        filled++;
+                        const fieldName = input.name || input.id;
+                        if (milestoneMap[fieldName]) {
+                            milestones[milestoneMap[fieldName]] = true;
+                        }
+                        input.classList.add('is-valid');
+                        input.classList.remove('is-invalid');
+                    } else {
+                        input.classList.remove('is-valid');
+                        if (input.hasAttribute('required')) {
+                            input.classList.add('is-invalid');
+                        }
+                    }
+                });
+
+                const percent = Math.round((filled / inputs.length) * 100);
+                progressBar.style.width = percent + "%";
+                progressText.textContent = percent + "%";
+
+                milestoneItems.forEach(item => {
+                    const milestone = item.getAttribute("data-milestone");
+                    if (milestones[milestone]) {
+                        item.classList.add("completed");
+                    } else {
+                        item.classList.remove("completed");
+                    }
+                });
+
+                const requiredFields = form.querySelectorAll('[required]');
+                let allRequiredFilled = true;
+                requiredFields.forEach(field => {
+                    if (field.value.trim() === "") allRequiredFilled = false;
+                });
+                submitBtn.disabled = !allRequiredFilled;
+            }
+
+            updateProgress();
+
+            inputs.forEach(input => {
+                input.addEventListener("input", updateProgress);
+                input.addEventListener("change", updateProgress);
+            });
+
+            form.addEventListener('submit', function(e) {
+                submitBtn.disabled = true;
+                submitText.textContent = "Sending...";
+                submitSpinner.classList.remove('d-none');
+            });
+        });
+    </script>
+</body>
+</html>
