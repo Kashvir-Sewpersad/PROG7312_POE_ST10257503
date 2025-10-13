@@ -105,13 +105,26 @@ namespace Programming_7312_Part_1.Controllers
 
             if (!string.IsNullOrEmpty(category))
             {
-                events = _eventService.GetEventsByCategory(category);
-                ViewBag.SelectedCategory = category;
+                if (category.ToLower() == "popular")
+                {
+                    events = _eventService.GetPopularEvents(20); // Show more popular events
+                    ViewBag.SelectedCategory = category;
 
-                // Filter other sections by category as well
-                ViewBag.UpcomingEvents = _eventService.GetUpcomingEventsByCategory(category, 3);
-                ViewBag.FeaturedEvents = _eventService.GetFeaturedEventsByCategory(category, 3);
-                ViewBag.RecommendedEvents = _eventService.GetRecommendedEventsByCategory(category, 3);
+                    // For popular, show general sections
+                    ViewBag.UpcomingEvents = _eventService.GetUpcomingEvents(3);
+                    ViewBag.FeaturedEvents = _eventService.GetFeaturedEvents(3);
+                    ViewBag.RecommendedEvents = _eventService.GetRecommendedEvents(3);
+                }
+                else
+                {
+                    events = _eventService.GetEventsByCategory(category);
+                    ViewBag.SelectedCategory = category;
+
+                    // Filter other sections by category as well
+                    ViewBag.UpcomingEvents = _eventService.GetUpcomingEventsByCategory(category, 3);
+                    ViewBag.FeaturedEvents = _eventService.GetFeaturedEventsByCategory(category, 3);
+                    ViewBag.RecommendedEvents = _eventService.GetRecommendedEventsByCategory(category, 3);
+                }
             }
             else if (!string.IsNullOrEmpty(searchTerm))
             {

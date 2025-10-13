@@ -32,7 +32,13 @@ namespace Programming_7312_Part_1.Controllers
         [HttpPost]
         public IActionResult Login(string password)
         {
-            if (password == "1234")
+            // Hash table for admin credentials
+            var adminCredentials = new Dictionary<string, string>
+            {
+                { "password", "1234" }
+            };
+
+            if (adminCredentials.ContainsValue(password))
             {
                 // Simple session-based auth
                 HttpContext.Session.SetString("AdminLoggedIn", "true");

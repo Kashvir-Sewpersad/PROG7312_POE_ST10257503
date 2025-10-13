@@ -45,5 +45,8 @@ namespace Programming_7312_Part_1.Models
 
         // For recommendation system
         public List<string> Tags { get; set; } = new List<string>();
+
+        // For popular events based on searches
+        public int SearchCount { get; set; } = 0;
     }
 }

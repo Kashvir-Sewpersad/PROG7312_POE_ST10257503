@@ -279,10 +279,19 @@ namespace Programming_7312_Part_1.Services
 
             searchTerm = searchTerm.ToLower().Trim();
 
-            return new LinkedList<Event>(_context.Events
+            var matchingEvents = _context.Events
                 .AsEnumerable()
                 .Where(e => e.Title.ToLower().Contains(searchTerm))
-                .OrderBy(e => e.EventDate));
+                .ToList();
+
+            // Increment SearchCount for matching events
+            foreach (var eventItem in matchingEvents)
+            {
+                eventItem.SearchCount++;
+            }
+            _context.SaveChanges();
+
+            return new LinkedList<Event>(matchingEvents.OrderBy(e => e.EventDate));
         }
 
         public bool UpdateEvent(Event updatedEvent)
@@ -598,6 +607,14 @@ namespace Programming_7312_Part_1.Services
             }
 
             return new LinkedList<Event>(recommendedEvents.Take(count));
+        }
+
+        public LinkedList<Event> GetPopularEvents(int count = 10)
+        {
+            return new LinkedList<Event>(_context.Events
+                .OrderByDescending(e => e.SearchCount)
+                .ThenByDescending(e => e.Upvotes)
+                .Take(count));
         }
 
         public bool DeleteEvent(int id)
