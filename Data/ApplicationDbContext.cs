@@ -11,6 +11,7 @@ namespace Programming_7312_Part_1.Data
         }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,18 @@ namespace Programming_7312_Part_1.Data
                         v => string.Join(",", v),
                         v => string.IsNullOrEmpty(v) ? new List<string>() : v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
                     );
+            });
+
+            // Configure Announcement entity
+            modelBuilder.Entity<Announcement>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.Title).IsRequired().HasMaxLength(200);
+                entity.Property(a => a.Content).IsRequired().HasMaxLength(2000);
+                entity.Property(a => a.Category).HasMaxLength(100);
+                entity.Property(a => a.IsActive).HasDefaultValue(true);
+                entity.Property(a => a.Priority).HasDefaultValue(1);
+                entity.Property(a => a.CreatedDate).HasDefaultValueSql("datetime('now')");
             });
         }
     }

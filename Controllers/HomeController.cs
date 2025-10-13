@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Programming_7312_Part_1.Models;
 using Programming_7312_Part_1.Services;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Programming_7312_Part_1.Controllers
 {
@@ -10,11 +11,13 @@ namespace Programming_7312_Part_1.Controllers
     {
         private readonly IssueStorage _issueStorage;
         private readonly EventService _eventService;
+        private readonly AnnouncementService _announcementService;
 
-        public HomeController(IssueStorage issueStorage, EventService eventService)
+        public HomeController(IssueStorage issueStorage, EventService eventService, AnnouncementService announcementService)
         {
             _issueStorage = issueStorage ?? throw new ArgumentNullException(nameof(issueStorage));
             _eventService = eventService ?? throw new ArgumentNullException(nameof(eventService));
+            _announcementService = announcementService ?? throw new ArgumentNullException(nameof(announcementService));
         }
 
         // home  
@@ -82,6 +85,7 @@ namespace Programming_7312_Part_1.Controllers
         public IActionResult LocalEvents(string category = "", string searchTerm = "", DateTime? startDate = null, DateTime? endDate = null)
         {
             ViewBag.Categories = _eventService.UniqueCategories.ToList();
+            ViewBag.Announcements = _announcementService.GetActiveAnnouncements(5);
 
             // Set default start date to current date if not provided
             if (!startDate.HasValue)

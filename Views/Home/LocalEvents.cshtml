@@ -347,21 +347,66 @@
                     </div>
 
                     <!-- Back to Main Menu Button -->
-                    <!-- Important Announcement Section -->
+                    <!-- Important Announcements Section -->
                     <div id="announcement" class="announcement-section">
-                        <h3 class="section-title">Important Announcement</h3>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="event-card neon-card">
-                                    <div class="position-relative">
-                                        <img src="~/Images/coat of arms .jpeg" class="event-image" alt="Municipality Announcement">
+                        <h3 class="section-title">Important Announcements</h3>
+                        @if (ViewBag.Announcements != null && ViewBag.Announcements.Count > 0)
+                        {
+                            <div class="row">
+                                @foreach (var announcement in ViewBag.Announcements)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <div class="event-card neon-card">
+                                            <div class="position-relative">
+                                                <img src="~/Images/coat of arms .jpeg" class="event-image" alt="Municipality Announcement">
+                                                @if (announcement.Priority == 3)
+                                                {
+                                                    <div class="event-date-badge bg-danger">
+                                                        <i class="fas fa-exclamation-triangle"></i> High Priority
+                                                    </div>
+                                                }
+                                                else if (announcement.Priority == 2)
+                                                {
+                                                    <div class="event-date-badge bg-warning">
+                                                        <i class="fas fa-info-circle"></i> Medium Priority
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="event-date-badge bg-secondary">
+                                                        <i class="fas fa-info"></i> Low Priority
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="p-3">
+                                                <h5 class="card-title">@announcement.Title</h5>
+                                                @if (!string.IsNullOrEmpty(announcement.Category))
+                                                {
+                                                    <span class="event-tag">@announcement.Category</span>
+                                                }
+                                                <p class="card-text">@(announcement.Content.Length > 150 ? announcement.Content.Substring(0, 150) + "..." : announcement.Content)</p>
+                                                <small class="text-muted">Posted: @announcement.CreatedDate.ToString("MMM dd, yyyy")</small>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="p-3">
-                                        <p class="card-text">There will be no water in the area of Upper Newlands on 18 November 2025 from 08:00 to 17:00 due to planned maintenance of water infrastructure - Municipality.</p>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="event-card neon-card">
+                                        <div class="position-relative">
+                                            <img src="~/Images/coat of arms .jpeg" class="event-image" alt="Municipality Announcement">
+                                        </div>
+                                        <div class="p-3">
+                                            <p class="card-text">There will be no water in the area of Upper Newlands on 18 November 2025 from 08:00 to 17:00 due to planned maintenance of water infrastructure - Municipality.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
                     <div class="text-center mt-4">
                         <a href="@Url.Action("Index", "Home")" class="btn btn-outline-light neon-button">

@@ -5,6 +5,7 @@ using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Programming_7312_Part_1.Controllers
 {
@@ -12,11 +13,13 @@ namespace Programming_7312_Part_1.Controllers
     {
         private readonly IssueStorage _issueStorage;
         private readonly EventService _eventService;
+        private readonly AnnouncementService _announcementService;
 
-        public AdminController(IssueStorage issueStorage, EventService eventService)
+        public AdminController(IssueStorage issueStorage, EventService eventService, AnnouncementService announcementService)
         {
             _issueStorage = issueStorage;
             _eventService = eventService;
+            _announcementService = announcementService;
         }
 
         // GET: Admin/Login
@@ -52,6 +55,7 @@ namespace Programming_7312_Part_1.Controllers
 
             ViewBag.Issues = _issueStorage.ReportedIssues.ToList();
             ViewBag.Events = _eventService.GetAllEvents();
+            ViewBag.Announcements = _announcementService.GetAllAnnouncements();
             return View();
         }
 
@@ -248,6 +252,73 @@ namespace Programming_7312_Part_1.Controllers
             else
             {
                 TempData["Success"] = "Event deleted successfully.";
+            }
+
+            return RedirectToAction("Dashboard");
+        }
+
+        // GET: Admin/CreateAnnouncement
+        public IActionResult CreateAnnouncement()
+        {
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            ViewBag.Categories = _announcementService.UniqueCategories.ToList();
+            return View();
+        }
+
+        // POST: Admin/CreateAnnouncement
+        [HttpPost]
+        public IActionResult CreateAnnouncement(Announcement model)
+        {
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Categories = _announcementService.UniqueCategories.ToList();
+                    return View(model);
+                }
+
+                // Generate new ID
+                var allAnnouncements = _announcementService.GetAllAnnouncements();
+                model.Id = allAnnouncements.Any() ? allAnnouncements.Max(a => a.Id) + 1 : 1;
+
+                _announcementService.AddAnnouncement(model);
+
+                return RedirectToAction("Dashboard");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred while creating the announcement. Please try again.");
+                ViewBag.Categories = _announcementService.UniqueCategories.ToList();
+                return View(model);
+            }
+        }
+
+        // POST: Admin/DeleteAnnouncement
+        [HttpPost]
+        public IActionResult DeleteAnnouncement(int id)
+        {
+            if (HttpContext.Session.GetString("AdminLoggedIn") != "true")
+            {
+                return RedirectToAction("Login");
+            }
+
+            var success = _announcementService.DeleteAnnouncement(id);
+            if (!success)
+            {
+                TempData["Error"] = "Failed to delete announcement.";
+            }
+            else
+            {
+                TempData["Success"] = "Announcement deleted successfully.";
             }
 
             return RedirectToAction("Dashboard");
