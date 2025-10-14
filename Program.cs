@@ -55,7 +55,9 @@ using Programming_7312_Part_1.Services;
  * I Kashvir Sewpersad, the student , ST10257503,  hereby declare that i have made use of artifical intelligence in the creation of this project 
  * The nature of my usage has primarily been for debugging issues, either logical or syntaxed based, improving functionality, assistance with ui elements (front end) and overall improving the quality of the work i produce 
  * i have also used AI to gain a better understanding of concepts, specifically the data structures and algoryths implemented
- *
+ *NOTE : THE UI WAS IMPROVED BY AI SPECIFICALLY FOR ADDING ANIMATIONS
+ * NOTE : THE CONTACT -> WHICH IS NOT RELEVANT TO THIS POE, was develped along with AI 
+ * 
  * below are links to my ai usage
  * https://chatgpt.com/share/68ee7ec7-2df8-8010-ac96-18b83ad84849
  * https://chatgpt.com/share/68ee805a-b258-8010-b34b-a8a98b18cf4b
