@@ -1,38 +1,67 @@
-// Services/EmailService.cs
+//***************************************** start of file **************************************************//
+
+
+//------------------------------ start of imports ---------------------------------//
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
-
+//---------------------------------- end of imports --------------------------------//
 namespace Programming_7312_Part_1.Services
 {
+    
+    /*
+     * the follwing class serves to handle email services for the application
+     *
+     * it is using an api to send emails to users who filled out the contact form 
+     *
+     *  this uses smtp to send the emails
+     *
+     * the api used was recived from  brevo
+     *
+     * there is 300 free emails per day
+     *
+     * this is used to send a confirmation email to the user
+     *
+     *
+     * the default email adress is my own so i can monitor the emails being sent and this is monitored through brevos website dashboard 
+     *
+     * this took 6 hours to implement and test :( ;( :9
+     */
     public class EmailService
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration; // configuration variable
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration) // constructor
         {
-            _configuration = configuration;
+            _configuration = configuration; // setting the configuration variable
         }
 
-        public async Task<bool> SendEmailAsync(string toEmail, string subject, string body, string? toName = null)
+        public async Task<bool> SendEmailAsync(string toEmail, string subject, string body, string? toName = null) // method to send email
         {
             try
             {
                 var emailSettings = _configuration.GetSection("EmailSettings");
 
-                var smtpServer = emailSettings["SmtpServer"];
-                var smtpPort = int.Parse(emailSettings["SmtpPort"] ?? "587");
-                var senderEmail = emailSettings["SenderEmail"];
+                var smtpServer = emailSettings["SmtpServer"];// smtp server variable
+                
+                var smtpPort = int.Parse(emailSettings["SmtpPort"] ?? "587"); // smtp port variable
+                
+                var senderEmail = emailSettings["SenderEmail"]; 
+                
+                
                 var senderName = emailSettings["SenderName"];
+                
                 var username = emailSettings["Username"];
+                
                 var password = emailSettings["Password"];
-                var enableSsl = bool.Parse(emailSettings["EnableSsl"] ?? "true");
+                 
+                var enableSsl = bool.Parse(emailSettings["EnableSsl"] ?? "true"); // enable ssl 
 
-                Console.WriteLine($"Attempting to send email to {toEmail} via {smtpServer}:{smtpPort}");
+                Console.WriteLine($"Attempting to send email to {toEmail} via {smtpServer}:{smtpPort}"); // logging the attempt to send email this shows up in the terminal 
 
                 using var client = new SmtpClient(smtpServer, smtpPort)
                 {
-                    Credentials = new NetworkCredential(username, password),
+                    Credentials = new NetworkCredential(username, password), 
                     EnableSsl = enableSsl,
                     Timeout = 30000 // 30 seconds timeout
                 };
@@ -45,21 +74,35 @@ namespace Programming_7312_Part_1.Services
                     IsBodyHtml = true
                 };
 
-                mailMessage.To.Add(new MailAddress(toEmail, toName));
+                mailMessage.To.Add(new MailAddress(toEmail, toName)); // adding the to email and name
 
-                await client.SendMailAsync(mailMessage);
-                Console.WriteLine($"Email sent successfully to {toEmail}");
+                await client.SendMailAsync(mailMessage); 
+                
+                Console.WriteLine($"Email sent successfully to {toEmail}"); // logging success message 
+                
                 return true;
             }
             catch (Exception ex)
             {
                 // Log the exception (in a real app, you'd use a proper logging framework)
-                Console.WriteLine($"Email sending failed: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                Console.WriteLine($"Email sending failed: {ex.Message}"); // logging failure message
+                
+                
+                
+                
+                Console.WriteLine($"Stack trace: {ex.StackTrace}"); // this is for debugging in terminal 
                 return false;
             }
         }
-
+        /* 
+         * the below is to populate the email body for the contact confirmation email
+         * 
+         *
+         * this is what shows up in the users email 
+         * 
+         *
+         * 
+         */
         public async Task<bool> SendContactConfirmationAsync(string recipientEmail, string recipientName, string subject, string message)
         {
             var emailBody = $@"
@@ -100,7 +143,9 @@ namespace Programming_7312_Part_1.Services
                 </body>
                 </html>";
 
-            return await SendEmailAsync(recipientEmail, "Contact Confirmation - Municipal Services", emailBody, recipientName);
+            return await SendEmailAsync(recipientEmail, "Contact Confirmation - Municipal Services", emailBody, recipientName); // sending the email
         }
     }
 }
+
+//***************************************************************** end of file ************************************************//
