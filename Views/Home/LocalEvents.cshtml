@@ -3,8 +3,8 @@
 
 @{
     ViewData["Title"] = "Local Events and Announcements";
-    var images = new[] { "comunity.jpg", "crime.jpg", "hippo.png", "newlands.jpg", "pothole.jpg", "tokai.jpeg" };
-    int imageIndex = 0;
+    var images = new[] { "comunity.jpg", "crime.jpg", "hippo.png", "newlands.jpg", "pothole.jpg", "tokai.jpeg" }; // hardcoded images from the wwwroot folder for startup. this allows someone to run this for the first time and have images displaying on th eevents. when an admin adds images it get s stored in the uploads folder 
+    int imageIndex = 0; 
 }
 
 <!DOCTYPE html>
@@ -402,7 +402,7 @@
                                             <img src="~/Images/coat of arms .jpeg" class="event-image" alt="Municipality Announcement">
                                         </div>
                                         <div class="p-3">
-                                            <p class="card-text">There will be no water in the area of Upper Newlands on 18 November 2025 from 08:00 to 17:00 due to planned maintenance of water infrastructure - Municipality.</p>
+                                            <p class="card-text">There will be no water in the area of Upper Newlands on 18 November 2025 from 08:00 to 17:00 due to planned maintenance of water infrastructure - Municipality.</p>  <!--dummy announcement -->
                                         </div>
                                     </div>
                                 </div>
