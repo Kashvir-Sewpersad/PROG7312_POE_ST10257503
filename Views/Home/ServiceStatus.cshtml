@@ -75,9 +75,9 @@
                                             {
                                                 <br><small class="text-muted">@issue.AdminComments</small>
                                             }
-                                            @if (issue.ResponseDate.HasValue)
+                                            @if (issue.ResponseDate != null)
                                             {
-                                                <br><small class="text-muted">Response: @issue.ResponseDate.Value.ToString("yyyy-MM-dd HH:mm")</small>
+                                                <br><small class="text-muted">Response: @issue.ResponseDate.ToString("yyyy-MM-dd HH:mm")</small>
                                             }
                                         </div>
                                     }
@@ -91,10 +91,9 @@
                                         <button class="btn btn-sm btn-success me-2 vote-btn" data-issue-id="@issue.Id" data-vote-type="upvote">
                                             <i class="fas fa-thumbs-up"></i> <span class="upvote-count">@issue.Upvotes</span>
                                         </button>
-                                        <button class="btn btn-sm btn-danger me-2 vote-btn" data-issue-id="@issue.Id" data-vote-type="downvote">
+                                        <button class="btn btn-sm btn-danger vote-btn" data-issue-id="@issue.Id" data-vote-type="downvote">
                                             <i class="fas fa-thumbs-down"></i> <span class="downvote-count">@issue.Downvotes</span>
                                         </button>
-                                        <button class="btn btn-sm btn-primary" onclick="showDetails(@issue.Id)">Details</button>
                                     </div>
                                 </td>
                             </tr>
@@ -104,42 +103,18 @@
             </div>
         }
 
-        <!-- Modal for Details (Graph Traversal) -->
-        <div class="modal fade" id="detailsModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content bg-dark text-white">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Request Details</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body" id="modalBody">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="d-flex justify-content-between align-items-center mt-4">
-            <a href="@Url.Action("Index")" class="back-btn">Back to Main</a>
+            <div>
+                <a href="@Url.Action("Index")" class="back-btn me-2">Back to Main</a>
+                <a href="@Url.Action("Contact")" class="btn btn-outline-light">Contact Us</a>
+            </div>
             <a href="@Url.Action("ReportIssues")" class="neon-button">Submit Service Request</a>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showDetails(id) {
-            fetch(`/Home/GetIssueDetails?id=${id}`) // New endpoint if needed, or simulate
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('modalBody').innerHTML = `
-                        <p><strong>ID:</strong> ${data.id}</p>
-                        <p><strong>Description:</strong> ${data.description}</p>
-                        <p><strong>Status:</strong> ${data.status}</p>
-                        <p><strong>Dependencies (BFS Path):</strong> ${data.dependencyPath.join(' → ')}</p>
-                    `;
-                    new bootstrap.Modal(document.getElementById('detailsModal')).show();
-                });
-        }
 
         // Voting functionality
         document.addEventListener('click', function(e) {
