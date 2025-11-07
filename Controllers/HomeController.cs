@@ -8,6 +8,7 @@ using Programming_7312_Part_1.Services;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 //----------------------------- end of imports ------------------------//
 
@@ -30,13 +31,31 @@ namespace Programming_7312_Part_1.Controllers
             _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
-        // home  page 
+        // home  page
         public IActionResult Index()
         {
             return View();
         }
 
-        // privacy page 
+        // New: Service Status Action
+        public IActionResult ServiceStatus()
+        {
+            var userId = HttpContext.Request.Cookies["UserId"];
+            if (string.IsNullOrEmpty(userId))
+            {
+                ViewBag.Message = "No issues reported. Please report an issue first.";
+                ViewBag.Issues = new List<Issue>();
+            }
+            else
+            {
+                var issues = _issueStorage.GetUserIssues(userId);
+                ViewBag.Issues = issues;
+                ViewBag.UserId = userId;
+            }
+            return View();
+        }
+
+        // privacy page
         public IActionResult Privacy()
         {
             return View();
@@ -51,7 +70,7 @@ namespace Programming_7312_Part_1.Controllers
         [HttpPost]
         public async Task<IActionResult> ReportIssues(Issue model, IFormFile attachment)
         {
-            ViewBag.Categories = new[] { "Sanitation", "Roads", "Utilities", "Other" }; // catergories 
+            ViewBag.Categories = new[] { "Sanitation", "Roads", "Utilities", "Other" }; // catergories
 
             if (!ModelState.IsValid)
             {
@@ -82,8 +101,17 @@ namespace Programming_7312_Part_1.Controllers
                 model.AttachedFilePath = "/uploads/" + fileName;
             }
 
+            // New: Set UserId cookie
+            var userId = HttpContext.Request.Cookies["UserId"];
+            if (string.IsNullOrEmpty(userId))
+            {
+                userId = Guid.NewGuid().ToString();
+                Response.Cookies.Append("UserId", userId, new CookieOptions { Expires = DateTime.Now.AddYears(1) });
+            }
+            model.UserId = userId;
+
             // Store issues
-            _issueStorage.AddIssue(model);
+            _issueStorage.AddIssue(model); // Now updates advanced structures
 
             ViewBag.SuccessMessage = "Issue reported successfully!";
             ViewBag.EngagementMessage = "Your reports make our community better!";

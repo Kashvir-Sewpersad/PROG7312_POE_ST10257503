@@ -1,53 +1,35 @@
-﻿
-
-//********************************************************* start of file ***********************************************************//
-
-//------------------------------ start of imports ---------------------------------//
-
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-
-//---------------------------------- end of imports --------------------------------//
 
 namespace Programming_7312_Part_1.Models
 {
     public class Issue
     {
-        public int Id { get; set; } // primary key getter and setter
+        public int Id { get; set; }
 
         [Required]
-        public string? Location { get; set; } // location getter and setter variable 
+        public string? Location { get; set; }
 
         [Required]
-        public string? Category { get; set; }  // category getter and setter variable
+        public string? Category { get; set; }
 
         [Required]
-        public string? Description { get; set; }  // description getter and setter variable
+        public string? Description { get; set; }
 
-        public string? AttachedFilePath { get; set; } // optional attachment
+        public string? AttachedFilePath { get; set; }
 
-        public string Status { get; set; } = "Pending"; // default status is pending 
+        public string Status { get; set; } = "Pending"; // Pending, In Progress, Resolved
 
-        public DateTime ReportedDate { get; set; } // to be set to current date and time off submission
+        public DateTime ReportedDate { get; set; }
 
-        // For voting system
-        
-        /*
-         *
-         * below method is used to track the number of upvotes an issue has had
-         *
-         * this output from the data set to this is used to determine how popular a search is
-         *
-         * this will be used ti recommend issues based on what is popular
-         *
-         * 
-         */
-        public int Upvotes { get; set; } = 0; // default set to zero 
+        public int Upvotes { get; set; } = 0;
+
+        // New: User ID for tracking
+        public string? UserId { get; set; } = string.Empty;
 
         public Issue()
         {
-            ReportedDate = DateTime.Now; // set to current 
+            ReportedDate = DateTime.Now;
         }
     }
 }
-//**************************************************** end of file ***********************************************************//
