@@ -24,6 +24,8 @@ namespace Programming_7312_Part_1.Models
 
         public int Upvotes { get; set; } = 0;
 
+        public int Downvotes { get; set; } = 0;
+
         // New: User ID for tracking
         public string? UserId { get; set; } = string.Empty;
 

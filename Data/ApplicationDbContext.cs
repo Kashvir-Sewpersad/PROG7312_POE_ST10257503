@@ -13,6 +13,7 @@ namespace Programming_7312_Part_1.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Issue> Issues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +66,21 @@ namespace Programming_7312_Part_1.Data
                 entity.Property(c => c.IsRead).HasDefaultValue(false);
                 entity.Property(c => c.IsResponded).HasDefaultValue(false);
                 entity.Property(c => c.CreatedDate).HasDefaultValueSql("datetime('now')");
+            });
+
+            // Configure Issue entity
+            modelBuilder.Entity<Issue>(entity =>
+            {
+                entity.HasKey(i => i.Id);
+                entity.Property(i => i.Location).IsRequired().HasMaxLength(200);
+                entity.Property(i => i.Category).IsRequired().HasMaxLength(100);
+                entity.Property(i => i.Description).IsRequired().HasMaxLength(1000);
+                entity.Property(i => i.AttachedFilePath).HasMaxLength(500);
+                entity.Property(i => i.Status).HasMaxLength(50).HasDefaultValue("Pending");
+                entity.Property(i => i.Upvotes).HasDefaultValue(0);
+                entity.Property(i => i.Downvotes).HasDefaultValue(0);
+                entity.Property(i => i.UserId).HasMaxLength(100);
+                entity.Property(i => i.ReportedDate).HasDefaultValueSql("datetime('now')");
             });
         }
     }

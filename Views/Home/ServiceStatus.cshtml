@@ -38,6 +38,7 @@
                             <th>Status</th>
                             <th>Date</th>
                             <th>Upvotes</th>
+                            <th>Downvotes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -53,8 +54,11 @@
                                     <span class="badge @(issue.Status == "Resolved" ? "bg-success" : issue.Status == "In Progress" ? "bg-warning" : "bg-secondary")">@issue.Status</span>
                                 </td>
                                 <td>@issue.ReportedDate.ToString("yyyy-MM-dd HH:mm")</td>
-                                <td>@issue.Upvotes</td>
+                                <td id="upvotes-@issue.Id">@issue.Upvotes</td>
+                                <td id="downvotes-@issue.Id">@issue.Downvotes</td>
                                 <td>
+                                    <button class="btn btn-sm btn-success" onclick="upvoteIssue(@issue.Id)">👍</button>
+                                    <button class="btn btn-sm btn-danger" onclick="downvoteIssue(@issue.Id)">👎</button>
                                     <button class="btn btn-sm btn-primary" onclick="showDetails(@issue.Id)">Details</button>
                                 </td>
                             </tr>
@@ -96,6 +100,40 @@
                     `;
                     new bootstrap.Modal(document.getElementById('detailsModal')).show();
                 });
+        }
+
+        function upvoteIssue(issueId) {
+            fetch('/Home/UpvoteIssue', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ issueId: issueId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('upvotes-' + issueId).textContent = data.upvotes;
+                    document.getElementById('downvotes-' + issueId).textContent = data.downvotes;
+                }
+            });
+        }
+
+        function downvoteIssue(issueId) {
+            fetch('/Home/DownvoteIssue', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ issueId: issueId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('upvotes-' + issueId).textContent = data.upvotes;
+                    document.getElementById('downvotes-' + issueId).textContent = data.downvotes;
+                }
+            });
         }
 
         // Search filter (client-side)

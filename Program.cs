@@ -89,7 +89,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register our services
-builder.Services.AddSingleton<IssueStorage>();
+builder.Services.AddScoped<IssueStorage>();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<ContactService>();

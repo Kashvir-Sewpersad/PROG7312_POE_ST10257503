@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Programming_7312_Part_1.Models;
 using Programming_7312_Part_1.Services;
+using Programming_7312_Part_1.Data;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,16 @@ namespace Programming_7312_Part_1.Controllers
         private readonly AnnouncementService _announcementService;
         private readonly ContactService _contactService;
         private readonly EmailService _emailService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(IssueStorage issueStorage, EventService eventService, AnnouncementService announcementService, ContactService contactService, EmailService emailService)
+        public HomeController(IssueStorage issueStorage, EventService eventService, AnnouncementService announcementService, ContactService contactService, EmailService emailService, ApplicationDbContext context)
         {
             _issueStorage = issueStorage ?? throw new ArgumentNullException(nameof(issueStorage));
             _eventService = eventService ?? throw new ArgumentNullException(nameof(eventService));
             _announcementService = announcementService ?? throw new ArgumentNullException(nameof(announcementService));
             _contactService = contactService ?? throw new ArgumentNullException(nameof(contactService));
             _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         // home  page
@@ -53,6 +56,14 @@ namespace Programming_7312_Part_1.Controllers
                 ViewBag.UserId = userId;
             }
             return View();
+        }
+
+        // New: Public Service Status Action (shows all issues sorted by upvotes)
+        public IActionResult PublicServiceStatus()
+        {
+            var issues = _issueStorage.GetAllIssues();
+            ViewBag.Issues = issues;
+            return View("ServiceStatus");
         }
 
         // privacy page
@@ -259,7 +270,19 @@ namespace Programming_7312_Part_1.Controllers
             if (success)
             {
                 var issue = _issueStorage.GetIssueById(issueId);
-                return Json(new { success = true, upvotes = issue.Upvotes });
+                return Json(new { success = true, upvotes = issue.Upvotes, downvotes = issue.Downvotes });
+            }
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public IActionResult DownvoteIssue(int issueId)
+        {
+            var success = _issueStorage.DownvoteIssue(issueId);
+            if (success)
+            {
+                var issue = _issueStorage.GetIssueById(issueId);
+                return Json(new { success = true, upvotes = issue.Upvotes, downvotes = issue.Downvotes });
             }
             return Json(new { success = false });
         }

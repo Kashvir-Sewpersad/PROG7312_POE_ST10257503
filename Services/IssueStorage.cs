@@ -1,4 +1,5 @@
 ﻿using Programming_7312_Part_1.Models;
+using Programming_7312_Part_1.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -218,33 +219,42 @@ namespace Programming_7312_Part_1.Services
 {
     public class IssueStorage
     {
+        private readonly ApplicationDbContext _context;
         private int _nextId = 1;
-        public LinkedList<Issue> ReportedIssues { get; } = new LinkedList<Issue>();
 
-        // Advanced structures
+        // Keep in-memory structures for advanced operations
         public BinarySearchTree<Issue> BstById { get; } = new BinarySearchTree<Issue>(Comparer<Issue>.Create((a, b) => a.Id.CompareTo(b.Id)));
         public AVLTree<Issue> AvlByDate { get; } = new AVLTree<Issue>(Comparer<Issue>.Create((a, b) => a.ReportedDate.CompareTo(b.ReportedDate)));
         public SortedSet<Issue> RedBlackByCategory { get; } = new SortedSet<Issue>(Comparer<Issue>.Create((a, b) => string.Compare(a.Category, b.Category)));
         public PriorityQueue<Issue, int> HeapByPriority = new PriorityQueue<Issue, int>(); // Min-heap by upvotes (negated for max)
         public ServiceRequestGraph Graph { get; } = new ServiceRequestGraph();
 
-        public IssueStorage()
+        public IssueStorage(ApplicationDbContext context)
         {
-            // Seed sample issues with user "sampleuser" and deps
-            var sample1 = new Issue { Id = _nextId++, Location = "Tokai Rd", Category = "Roads", Description = "Pothole", Status = "Pending", UserId = "sampleuser" };
-            var sample2 = new Issue { Id = _nextId++, Location = "Main St", Category = "Utilities", Description = "Leak", Status = "In Progress", UserId = "sampleuser" };
-            var sample3 = new Issue { Id = _nextId++, Location = "Park Ave", Category = "Sanitation", Description = "Waste", Status = "Resolved", UserId = "sampleuser" };
+            _context = context;
+            LoadIssuesFromDatabase();
+        }
 
-            AddIssue(sample1);
-            AddIssue(sample2);
-            AddIssue(sample3);
-            Graph.AddDependency(1, 2); // Sample: Issue 1 depends on 2
+        private void LoadIssuesFromDatabase()
+        {
+            var issues = _context.Issues.ToList();
+            foreach (var issue in issues)
+            {
+                // Update structures
+                BstById.Insert(issue);
+                AvlByDate.Insert(issue);
+                RedBlackByCategory.Add(issue);
+                HeapByPriority.Enqueue(issue, -issue.Upvotes); // Negate for max-heap simulation
+
+                if (issue.Id >= _nextId) _nextId = issue.Id + 1;
+            }
         }
 
         public void AddIssue(Issue issue)
         {
             issue.Id = _nextId++;
-            ReportedIssues.AddLast(issue);
+            _context.Issues.Add(issue);
+            _context.SaveChanges();
 
             // Update structures (use Id for BST, ReportedDate for AVL, Category for RedBlack, -Upvotes for heap max)
             BstById.Insert(issue);
@@ -258,20 +268,35 @@ namespace Programming_7312_Part_1.Services
 
         public Issue GetIssueById(int issueId)
         {
-            // Use BST for O(log n) search
-            var sorted = BstById.InOrderTraversal();
-            return sorted.FirstOrDefault(i => i.Id == issueId);
+            return _context.Issues.Find(issueId);
         }
 
         public bool UpvoteIssue(int issueId)
         {
-            var issue = GetIssueById(issueId);
+            var issue = _context.Issues.Find(issueId);
             if (issue != null)
             {
                 issue.Upvotes++;
+                _context.SaveChanges();
                 // Update heap priority - rebuild the heap
                 var tempHeap = new PriorityQueue<Issue, int>();
-                foreach (var i in ReportedIssues) tempHeap.Enqueue(i, -i.Upvotes);
+                foreach (var i in _context.Issues) tempHeap.Enqueue(i, -i.Upvotes);
+                HeapByPriority = tempHeap;
+                return true;
+            }
+            return false;
+        }
+
+        public bool DownvoteIssue(int issueId)
+        {
+            var issue = _context.Issues.Find(issueId);
+            if (issue != null)
+            {
+                issue.Downvotes++;
+                _context.SaveChanges();
+                // Update heap priority - rebuild the heap (using upvotes for priority)
+                var tempHeap = new PriorityQueue<Issue, int>();
+                foreach (var i in _context.Issues) tempHeap.Enqueue(i, -i.Upvotes);
                 HeapByPriority = tempHeap;
                 return true;
             }
@@ -280,30 +305,12 @@ namespace Programming_7312_Part_1.Services
 
         public List<Issue> GetUserIssues(string userId)
         {
-            var userIssues = ReportedIssues.Where(i => i.UserId == userId).ToList();
+            return _context.Issues.Where(i => i.UserId == userId).OrderByDescending(i => i.Upvotes).ToList();
+        }
 
-            // Sort by date using AVL traversal
-            var sortedByDate = AvlByDate.InOrderTraversal().Where(i => i.UserId == userId).ToList();
-
-            // Priority order using heap (extract all, then re-enqueue)
-            var priorityList = new List<Issue>();
-            var allHeapIssues = new List<(Issue issue, int priority)>();
-            while (HeapByPriority.Count > 0)
-            {
-                HeapByPriority.TryDequeue(out var issue, out var priority);
-                allHeapIssues.Add((issue, priority));
-                if (issue.UserId == userId) priorityList.Add(issue);
-            }
-            // Re-enqueue all issues back to heap
-            foreach (var (issue, priority) in allHeapIssues)
-            {
-                HeapByPriority.Enqueue(issue, priority);
-            }
-
-            // Filter by category using RedBlack
-            var byCategory = RedBlackByCategory.Where(i => i.UserId == userId).ToList();
-
-            return sortedByDate; // Return sorted by date
+        public List<Issue> GetAllIssues()
+        {
+            return _context.Issues.OrderByDescending(i => i.Upvotes).ToList();
         }
     }
 }

@@ -65,7 +65,7 @@ namespace Programming_7312_Part_1.Controllers
                 return RedirectToAction("Login");
             }
 
-            ViewBag.Issues = _issueStorage.ReportedIssues.ToList();
+            ViewBag.Issues = _issueStorage.GetAllIssues();
             ViewBag.Events = _eventService.GetAllEvents(); // opens up the events 
             ViewBag.Announcements = _announcementService.GetAllAnnouncements(); // opens up all stored announcements 
             return View(); // displays on the admin view 
