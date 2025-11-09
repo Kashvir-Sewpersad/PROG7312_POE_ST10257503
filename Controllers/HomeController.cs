@@ -15,6 +15,10 @@ using System;
 
 namespace Programming_7312_Part_1.Controllers
 {
+   
+    /// The HomeController class manages user interactions for the home section of the application.
+    /// It provides actions for viewing the home page, reporting issues, checking service status, browsing local events, and submitting contact forms.
+    ////the other use of the home controller is to make pages visible or not 
     public class HomeController : Controller
     {
         private readonly IssueStorage _issueStorage;
@@ -24,6 +28,15 @@ namespace Programming_7312_Part_1.Controllers
         private readonly EmailService _emailService;
         private readonly ApplicationDbContext _context;
 
+        
+        /// Initializes a new instance of the HomeController with dependency-injected services.
+   
+        /// "issueStorage"----->Service for managing issue storage and retrieval.
+        /// "eventService"---------->Service for handling event-related action
+        /// "announcementService"----->Service for managing announcement
+        /// "contactService"--------------->Service for contact form subs
+        /// "emailService"-------------------->Service for sending emails.
+        /// "context"----------------------------->Database context for the application.
         public HomeController(IssueStorage issueStorage, EventService eventService, AnnouncementService announcementService, ContactService contactService, EmailService emailService, ApplicationDbContext context)
         {
             _issueStorage = issueStorage ?? throw new ArgumentNullException(nameof(issueStorage));
@@ -34,12 +47,22 @@ namespace Programming_7312_Part_1.Controllers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+       
+        /// Action method that returns the home page view.
+        
+        /// The Index view shall be returned and thus made visible .
         // home  page
         public IActionResult Index()
         {
             return View();
         }
 
+        
+        /// Displays the service status page for the current user, showing their reported issues.
+        /// 
+        /// If no user ID is found, displays a message to report an issue first.
+       
+        ///The ServiceStatus view with user's issues shall be made visible 
         // New: Service Status Action
         public IActionResult ServiceStatus()
         {
@@ -58,7 +81,11 @@ namespace Programming_7312_Part_1.Controllers
             return View();
         }
 
-        // New: Public Service Status Action (shows all issues sorted by upvotes)
+        
+        /// Displays the public service status page, showing all issues sorted by upvotes.
+       
+        /// The ServiceStatus view with all issues.
+        //  Public Service Status Action (shows all issues sorted by upvotes)
         public IActionResult PublicServiceStatus()
         {
             var issues = _issueStorage.GetAllIssues();
@@ -66,12 +93,20 @@ namespace Programming_7312_Part_1.Controllers
             return View("ServiceStatus");
         }
 
+        
+        /// Action method that returns the privacy policy page view.
+        
+        /// The Privacy view.
         // privacy page
         public IActionResult Privacy()
         {
             return View();
         }
 
+        
+        /// Displays the report issues page with available categories.
+       
+        /// The ReportIssues view with a new Issue model.
         public IActionResult ReportIssues()
         {
             ViewBag.Categories = new[] {
@@ -99,6 +134,12 @@ namespace Programming_7312_Part_1.Controllers
             return View(new Issue()); // new issue
         }
 
+      
+        /// Handles the POST request for reporting a new issue, including file upload and email confirmation.
+       
+        /// The Issue model containing the report details
+        /// attachment">Optional file attachment for the issue.
+        /// The ReportIssues view with success message or validation errors.
         [HttpPost]
         public async Task<IActionResult> ReportIssues(Issue model, IFormFile attachment)
         {
@@ -130,7 +171,7 @@ namespace Programming_7312_Part_1.Controllers
                 return View(model);
             }
 
-            // Handle file upload
+            // Handle file upload if an attachment is provided
             if (attachment != null && attachment.Length > 0)
             {
                 var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads"); // stored in upload folder
@@ -176,6 +217,15 @@ namespace Programming_7312_Part_1.Controllers
             return View(new Issue());
         }
 
+       
+        /// Displays local events based on category, search term, or date filters.
+        /// Also populates ViewBag with announcements and categorized event sections.
+        
+        /// "category">Optional category filter for events
+        /// "searchTerm">Optional search term for events
+        /// "startDate">Optional start date for filtering events.
+        /// "endDate">Optional end date for filtering events.
+        /// The LocalEvents view with filtered events.
         public IActionResult LocalEvents(string category = "", string searchTerm = "", DateTime? startDate = null, DateTime? endDate = null)
         {
             ViewBag.Categories = _eventService.UniqueCategories.ToList();
@@ -233,7 +283,7 @@ namespace Programming_7312_Part_1.Controllers
                 ViewBag.RecommendedEvents = _eventService.GetRecommendedEvents(3);
             }
 
-            // Apply date filtering if dates are provided
+            // Apply date filtering to events and section events if dates are provided
             if (startDate.HasValue || endDate.HasValue)
             {
                 events = events.Where(e =>
@@ -296,8 +346,13 @@ namespace Programming_7312_Part_1.Controllers
             return Json(new { success = false });
         }
 
+        ///
+        /// Handles downvoting an event via AJAX POST request.
+        ///
+        /// "eventId">The ID of the event to downvote.
+        /// JSON response with success status and updated vote counts.
         [HttpPost]
-        public IActionResult DownvoteEvent(int eventId) // downvotes based on id 
+        public IActionResult DownvoteEvent(int eventId) // downvotes based on id
         {
             var success = _eventService.DownvoteEvent(eventId);
             if (success)
@@ -308,6 +363,11 @@ namespace Programming_7312_Part_1.Controllers
             return Json(new { success = false });
         }
 
+        /// <summary>
+        /// Handles upvoting an issue via AJAX POST request.
+        /// </summary>
+        /// "issueId">The ID of the issue to upvote.
+        /// JSON response with success status and updated vote counts.
         [HttpPost]
         public IActionResult UpvoteIssue(int issueId)
         {
@@ -320,6 +380,11 @@ namespace Programming_7312_Part_1.Controllers
             return Json(new { success = false });
         }
 
+        /// <summary>
+        /// Handles downvoting an issue via AJAX POST request.
+        /// </summary>
+        /// "issueId">The ID of the issue to downvote.
+        /// JSON response with success status and updated vote counts.
         [HttpPost]
         public IActionResult DownvoteIssue(int issueId)
         {
@@ -342,6 +407,11 @@ namespace Programming_7312_Part_1.Controllers
             return View(new Contact());
         }
 
+        /// <summary>
+        /// Handles the POST request for submitting a contact form, storing the message and sending confirmation email.
+        /// </summary>
+        /// "model">The Contact model containing the form details.
+        /// The Contact view with success message or validation errors.
         [HttpPost]
         public async Task<IActionResult> Contact(Contact model)
         {
@@ -365,6 +435,10 @@ namespace Programming_7312_Part_1.Controllers
             return View(new Contact());
         }
 
+        /// <summary>
+        /// Displays the error page.
+        /// </summary>
+        /// The Error view.
         public IActionResult Error()
         {
             return View(); // return static view 
