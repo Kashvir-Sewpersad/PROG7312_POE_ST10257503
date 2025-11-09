@@ -1,10 +1,13 @@
-﻿using Programming_7312_Part_1.Models;
+﻿
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ START OF FILE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@//
+
+using Programming_7312_Part_1.Models;
 using Programming_7312_Part_1.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 
-// New: BST Node
+// ========================== BST Node ============================== 
 public class BSTNode<T>
 {
     public T Data { get; set; }
@@ -17,7 +20,7 @@ public class BSTNode<T>
     }
 }
 
-// New: Binary Search Tree
+// ==============================  Binary Search Tree ================================= 
 public class BinarySearchTree<T>
 {
     public BSTNode<T> Root { get; private set; }
@@ -65,7 +68,7 @@ public class BinarySearchTree<T>
     }
 }
 
-// New: AVL Tree Node (simplified balancing)
+// ==========================  AVL Tree Node (simplified balancing) ================================= 
 public class AVLNode<T>
 {
     public T Data { get; set; }
@@ -105,10 +108,10 @@ public class AVLTree<T>
 
         node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
 
-        // Balance factor
+        // ------------------------ Balance factor
         int balance = GetBalance(node);
 
-        // Rotations (simplified)
+        // ---------------------------------------- Rotations (simplified)
         if (balance > 1 && comparer.Compare(newNode.Data, node.Left.Data) < 0)
             return RightRotate(node);
         if (balance < -1 && comparer.Compare(newNode.Data, node.Right.Data) > 0)
@@ -170,7 +173,7 @@ public class AVLTree<T>
     }
 }
 
-// New: Graph for dependencies
+// ============================  Graph for dependencies ================================ 
 public class ServiceRequestGraph
 {
     private Dictionary<int, List<int>> adjacencyList = new Dictionary<int, List<int>>();
@@ -188,7 +191,7 @@ public class ServiceRequestGraph
         return adjacencyList.GetValueOrDefault(issueId, new List<int>());
     }
 
-    // BFS Traversal for dependency path
+    // =================================== BFS Traversal for dependency path ===================================== 
     public List<int> GetDependencyPath(int startId)
     {
         var visited = new HashSet<int>();
@@ -222,11 +225,11 @@ namespace Programming_7312_Part_1.Services
         private readonly ApplicationDbContext _context;
         private int _nextId = 1;
 
-        // Keep in-memory structures for advanced operations
+        // ---------------------Keep in-memory structures for advanced operations ---------------------- 
         public BinarySearchTree<Issue> BstById { get; } = new BinarySearchTree<Issue>(Comparer<Issue>.Create((a, b) => a.Id.CompareTo(b.Id)));
         public AVLTree<Issue> AvlByDate { get; } = new AVLTree<Issue>(Comparer<Issue>.Create((a, b) => a.ReportedDate.CompareTo(b.ReportedDate)));
         public SortedSet<Issue> RedBlackByCategory { get; } = new SortedSet<Issue>(Comparer<Issue>.Create((a, b) => string.Compare(a.Category, b.Category)));
-        public PriorityQueue<Issue, int> HeapByPriority = new PriorityQueue<Issue, int>(); // Min-heap by upvotes (negated for max)
+        public PriorityQueue<Issue, int> HeapByPriority = new PriorityQueue<Issue, int>(); // ---------------------> Min-heap by upvotes (negated for max)
         public ServiceRequestGraph Graph { get; } = new ServiceRequestGraph();
 
         public IssueStorage(ApplicationDbContext context)
@@ -234,7 +237,7 @@ namespace Programming_7312_Part_1.Services
             _context = context;
             LoadIssuesFromDatabase();
         }
-
+//========================== RETRIVE THE ISSUES FORM THE DATABASE =============================//
         private void LoadIssuesFromDatabase()
         {
             var issues = _context.Issues.ToList();
@@ -249,7 +252,7 @@ namespace Programming_7312_Part_1.Services
                 if (issue.Id >= _nextId) _nextId = issue.Id + 1;
             }
         }
-
+//========================== ADD ISSUE =========================//
         public void AddIssue(Issue issue)
         {
             issue.Id = _nextId++;
@@ -270,7 +273,7 @@ namespace Programming_7312_Part_1.Services
         {
             return _context.Issues.Find(issueId);
         }
-
+//================================= UPVOTE SYSTEM BASED OFF THE ISSSSUE ID ========================// 
         public bool UpvoteIssue(int issueId)
         {
             var issue = _context.Issues.Find(issueId);
@@ -286,7 +289,7 @@ namespace Programming_7312_Part_1.Services
             }
             return false;
         }
-
+//================================= DOWN VOTE SYSTEM BASED OFF THE ISSSSUE ID ========================// 
         public bool DownvoteIssue(int issueId)
         {
             var issue = _context.Issues.Find(issueId);
@@ -302,7 +305,7 @@ namespace Programming_7312_Part_1.Services
             }
             return false;
         }
-
+//============================= GET THE USER ISSUES =========================================//
         public List<Issue> GetUserIssues(string userId)
         {
             return _context.Issues.Where(i => i.UserId == userId).OrderByDescending(i => i.Upvotes).ToList();
@@ -312,17 +315,17 @@ namespace Programming_7312_Part_1.Services
         {
             return _context.Issues.OrderByDescending(i => i.Upvotes).ToList();
         }
-
+// ============================== APPROVE ISSUE AND SAVE THE CHANGE ==========================
         public bool ApproveIssue(int issueId, string comments = null)
         {
             var issue = _context.Issues.Find(issueId);
             if (issue != null)
             {
-                issue.AdminResponse = "Approved";
+                issue.AdminResponse = "Approved"; // MESSAGE 
                 issue.AdminComments = comments;
-                issue.ResponseDate = DateTime.Now;
+                issue.ResponseDate = DateTime.Now; // TIME STAMP 
                 issue.Status = "Approved";
-                _context.SaveChanges();
+                _context.SaveChanges(); // SAVE 
                 return true;
             }
             return false;
@@ -342,7 +345,7 @@ namespace Programming_7312_Part_1.Services
             }
             return false;
         }
-
+//============================= DELETE THE ISSUE ==================================//
         public bool DeleteIssue(int issueId, string comments = null)
         {
             var issue = _context.Issues.Find(issueId);
@@ -360,9 +363,11 @@ namespace Programming_7312_Part_1.Services
     }
 }
 
-// Extend Issue for comparers
+// =============================== Extend Issue for comparers ================================== 
 public static class IssueComparer
 {
     public static int ByDate(Issue a, Issue b) => a.ReportedDate.CompareTo(b.ReportedDate);
     public static int ById(Issue a, Issue b) => a.Id.CompareTo(b.Id);
 }
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  END  OF FILE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@//
