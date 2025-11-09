@@ -1,4 +1,4 @@
-# Programming 7312 Part-1
+# Programming 7312 Part-1, Part-2 & POE Final Submission
 # C# MVC Project Setup Guide
 
 ## Table of Contents
@@ -13,16 +13,17 @@
 ---
 
 ## Project Overview
-This is a C# ASP.NET MVC web application designed forProg 7312 Part 1 .
+This is a C# ASP.NET MVC web application designed for Prog 7312 Part 1, 2 and POE Final Submission .
 
 ---
 
 ## Prerequisites
-Ensure your system meets these requirements:
+Ensure your system meets these requirements and has the following installed:
 1. **Operating System**: Windows 10/11 or macOS/Linux
 2. **.NET SDK**: Version 6.0 or later ([Download .NET](https://dotnet.microsoft.com/download))
 3. **IDE** (Recommended):
-   - Visual Studio 2022 (Community Edition free)
+   - Visual Studio 2022 
+   - Any preferred IDE capable of running MVC projects 
 4. **Web Browser**: Chrome
 
 
@@ -31,32 +32,32 @@ Ensure your system meets these requirements:
 ## Downloading the Project
 ### Step-by-Step Instructions:
 1. **Navigate to GitHub Repository**:
-   
-   
-   https://github.com/[username]/[repository-name]
+
+
+https://github.com/Kashvir-Sewpersad/PROG7312_POE_ST10257503.git
    
     Locate ZIP file in Downloads folder
    
     Right-click the ZIP file
     
-    Select "Extract All..."
+    Select "Extract All"
     
-    Choose destination (e.g., C:\Projects\)
+    Choose destination (e.g., C:\Projects\). I recommend a desktop folder 
     
     Click "Extract"
    ---
    ## Running the Project
    
-   Open Visual Studio
+    Open Visual Studio or IDE of your choice 
    
-Select "Open a project or solution"
+    Select "Open a project or solution"
 
 Navigate to extracted folder and open
 ---
 
 ### Restore NuGet Packages:
 
-Right-click solution → "Restore NuGet Packages"
+    Right-click solution → "Restore NuGet Packages"
 ---------------------------
 
 
@@ -80,13 +81,13 @@ This is a C# ASP.NET MVC web application designed forProg 7312 Part 2 as per the
 ---
 
 ## Prerequisites
-Ensure your system meets these requirements:
-1. **Operating System**: Windows 10/11 
-2. **.NET SDK**: Version 6.0 
-3. **IDE** (Recommended):
-   - Visual Studio 2022 (Community Edition free)
-   - Rider 
-4. **Web Browser**: Chrome is preferred 
+    Ensure your system meets these requirements:
+    1. Operating System**: Windows 10/11 
+    2.NET SDK**: Version 6.0 
+    3. IDE :
+          - Visual Studio 2022 (Community Edition free)
+          - Rider 
+    4. Web Browser: Chrome is preferred 
 
 
 ---
@@ -136,6 +137,123 @@ Select "Set as Startup Project"
 ### youtube link : https://youtu.be/7nXOtbyj1Ks
 
 
+
+
+*************************************************
+
+# Programming 7312 POE- FINAL SUBMISSION 
+# C# MVC Project Setup Guide
+
+## Table of Contents
+1. [Project Overview]
+2. [Prerequisites]
+3. [Downloading the Project]
+4. [Extracting the Project Files]
+5. [Running the Project]
+
+
+
+---
+
+## Project Overview
+This is a C# ASP.NET MVC web application designed for Prog 7312 POE -Final Submission  as per the POE requirements with a few additions  .
+
+---
+
+## Prerequisites
+    Ensure your system meets the following requirements:
+    1. Operating System**: Windows 10/11 
+    2.NET SDK: Version 6.0 
+    3. IDE :
+          - Visual Studio 2022 
+          - Rider 
+    4. Web Browser: Chrome is preferred 
+
+
+---
+
+## Downloading the Project
+### Follow These Instructions:
+    1. Navigate to GitHub Repository:
+         Copy the link under the code tag
+         Open your IDE of choice and clone the repo with the link
+    
+       Alternatively download the zip file
+         Locate ZIP file in Downloads folder
+          Right-click the ZIP file
+         Select "Extract All"
+         Choose destination (e.g., C:\Projects\) -> I recommend desktop
+
+   Click "Extract all"
+   ---
+   ## Running the Project
+
+    Open your IDE
+    
+    Select "Open a project or solution"
+
+Navigate to extracted folder and open
+---
+
+### Restore NuGet Packages:
+
+Right-click solution → "Restore NuGet Packages"
+---
+
+### Set Startup Project:
+
+    In Solution Explorer, right-click web project
+    Select "Set as Startup Project"
+
+### Press Build and Run
+---
+
+### This project makes use of SQlite database, the configuration is done in appsettings.json
+### There is an automatic email responder api added to the code. the details shall removed for security reasons
+### To access and use the admin dashboard, use the hardcoded password ----- > 1234
+### YouTube link as proof of functionality  : 
+
+### Data stuctures & Algorythms used 
+
+### IssueStorage.cs (IssueStorage)
+       BinarySearchTree<Issue> BstById: Organizes issues by ID for retrieval
+       AVLTree<Issue> AvlByDate: Self-balancing tree for date-based sorting, ensuring insertions
+       SortedSet<Issue> RedBlackByCategory: Red-Black tree for category-based sorting and filters
+       PriorityQueue<Issue> HeapByPriority: Max-heap  for prioritizing issues by community votes
+       ServiceRequestGraph Graph: Adjacency list graph for modeling issue dependency,  BFS traversal and MST
+       GetMinimumSpanningTree:  algorithm implementation to find the minimum cost dependency network, optimiizing resource allocation for issues
+
+### EventService.cs (EventService)
+    SortedDictionary<DateTime, HashSet<Event>> EventsByDate: Organizes the events by date for  date lookup
+    Dictionary<string, LinkedList<Event>> EventsByCategory: Group events by category using linked lists for ordered storage 
+    HashSet<string> UniqueCategories: Stores unique category names for the dropdown
+    HashSet<string> UniqueTags: Stores unique tag  for event tagging and suggestion
+    Queue<Event> RecentEvents: FIFO -first in first out-  queue for tracking the most recent events - limited to  5 event 
+    Stack<Event> FeaturedEvents: LIFO- last in first out- stack for featured events - limited to 3
+    SortedDictionary<DateTime, HashSet<Event>> UpcomingEvents: Prioritizes upcoming events by date
+    Dictionary<string, int> SearchHistory: Tracks search terms and how often for recommendations
+
+### AnnouncementService.cs (AnnouncementService)
+    Queue<Announcement> AnnouncementQueue: FIFO – first inn first out -  queue for managing announcements limited to  a maximum of 10
+    Dictionary<string, List<Announcement>> AnnouncementsByCategory: Group the announcements 
+    HashSet<string> UniqueCategories: Stores unique announcement category 
+    SortedDictionary  List<Announcement>> AnnouncementsByPriority: Organize  announcements by priority level - high priority first  
+
+### IssueStorage.cs (IssueStorage)
+    LinkedList<Issue> ReportedIssues: Stores all the  report issues in a linked list for fast access and upvoting
+
+### Event.cs
+    List<string> Tags: Simple list for storing the many event tags
+
+### Additional Notes
+        my  project heavily uses advanced data structures to meet the POE demands  such as queues  stacks  dictionaries of many types  hash sets and linked lists
+        SQLite is used for persistence, but in-memory data structures handle runtime operations.
+        seeded data is added for the first start up then as admin and users perform actions, that data is sent to back end and then to the SQLite
+        I have tried to maintain good coding practices throughout the development cycle 
+
+
+
+
 ///////////// REFEREMCES USED FOR THIS PROJECT /////////////
 
  
@@ -183,57 +301,21 @@ Select "Set as Startup Project"
  * I Kashvir Sewpersad, the student , ST10257503,  hereby declare that i have made use of artifical intelligence in the creation of this project 
  * The nature of my usage has primarily been for debugging issues, either logical or syntaxed based, improving functionality, assistance with ui elements (front end) and overall improving the quality of the work i produce 
  * i have also used AI to gain a better understanding of concepts, specifically the data structures and algoryths implemented
- 
+ * AI was used heavily to get the email feature working which makes use of API to send email to the user. i copied the logic from the contact section over to the report issues section to implement the tracking fucntionality 
  * below are links to my ai usage
  * https://chatgpt.com/share/68ee7ec7-2df8-8010-ac96-18b83ad84849
  * https://chatgpt.com/share/68ee805a-b258-8010-b34b-a8a98b18cf4b
  * https://chatgpt.com/share/68ee814e-ddfc-8010-b2fa-da3e1cbcbd9f
  * https://chatgpt.com/share/68ee83d0-6d94-8010-995f-c50d8a2bc85b
- *
+ * https://chatgpt.com/share/6911020a-f5b4-8010-9ab0-aa97e036661d
  
  
  *  -------------current issues --> TO BE FIXED IN PART 3 OR REMOVED IN PART 3 ------------
    
- *  the search event (not required as per poe  ) is not functioning correctly on local events
- *  the images (not required as per poe ) displaying on local events are not static at the moment --> i tried to have it so when a user loggs into the system they can see diffrent events each time, this has colided with the recomendation and i made a mess of it
- *  the admin cannont add an event if the active box is ticked ( not required as per poe )
- *  the recomendation algorithm does not display searched event right on top of the paage, it is displaying correctly, just not at the right position on the page 
-### IssueStorage.cs (Services/IssueStorage.cs)
-- **BinarySearchTree<Issue> BstById**: Organizes issues by ID for O(log n) retrieval.
-- **AVLTree<Issue> AvlByDate**: Self-balancing tree for date-based sorting, ensuring O(log n) insertions and traversals.
-- **SortedSet<Issue> RedBlackByCategory**: Red-Black tree for category-based sorting and filtering.
-- **PriorityQueue<Issue, int> HeapByPriority**: Max-heap (via negated upvotes) for prioritizing issues by community votes.
-- **ServiceRequestGraph Graph**: Adjacency list graph for modeling issue dependencies, supporting BFS traversal and MST computation.
-- **GetMinimumSpanningTree**: Kruskal's algorithm implementation to find the minimum cost dependency network, optimizing resource allocation for issue resolution.
-
-
-   ### Data structures used in part 2 
-### EventService.cs (Services/EventService.cs)
-- **SortedDictionary<DateTime, HashSet<Event>> EventsByDate**: Organizes the events by date for  date-based lookup and range query.
-- **Dictionary<string, LinkedList<Event>> EventsByCategory**: Group events by category using linked lists for ordered storage within category.
-- **HashSet<string> UniqueCategories**: Stores unique category names for dropdowns.
-- **HashSet<string> UniqueTags**: Stores unique tag names for event tagging and suggestion.
-- **Queue<Event> RecentEvents**: FIFO (first in first out ) queue for tracking the most recent events - limited to only 5 events .
-- **Stack<Event> FeaturedEvents**: LIFO(last in first out) stack for featured events - limited to 3.
-- **SortedDictionary<DateTime, HashSet<Event>> UpcomingEvents**: Prioritizes upcoming events by date.
-- **Dictionary<string, int> SearchHistory**: Tracks search terms and how often for recommendations.
-
-### AnnouncementService.cs (Services/AnnouncementService.cs)
-- **Queue<Announcement> AnnouncementQueue**: FIFO – first inn first out -  queue for managing announcements limited to  a maximum of 10.
-- **Dictionary<string, List<Announcement>> AnnouncementsByCategory**: Group the announcements by  their category.
-- **HashSet<string> UniqueCategories**: Stores unique announcement category names.
-- **SortedDictionary<int, List<Announcement>> AnnouncementsByPriority**: Organize  announcements by priority level - high priority first followed by medium followed by low .
-
-### IssueStorage.cs (Services/IssueStorage.cs)
-- **LinkedList<Issue> ReportedIssues**: Stores all the  report issues in a linked list for fast access and upvoting. NOTE : the upvoting of issues is not implemented yet as it was a feature I decided to add and is not required by the POE 
-
-### Models/Event.cs
-- **List<string> Tags**: Simple list for storing the many event tags.
-
-### Additional Notes
-- my  project heavily uses advanced data structures to meet the POE demands  such as queues  stacks  dictionaries of many types  hash sets and linked lists
-- SQLite is used for persistence, but in-memory data structures handle runtime operations.
-- seeded data is added for the first start up then as admin and users perform actions, that data is sent to back end and then to the SQLite
+        the search event (not required as per poe  ) is not functioning correctly on local events
+        the images (not required as per poe ) displaying on local events are not static at the moment --> i tried to have it so when a user loggs into the system they can see diffrent events each time, this has colided with the recomendation and i made a mess of it
+        the admin cannont add an event if the active box is ticked ( not required as per poe )
+        the recomendation algorithm does not display searched event right on top of the paage, it is displaying correctly, just not at the right position on the page 
 
 
 
