@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Programming_7312_Part_1.Models;
-
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 namespace Programming_7312_Part_1.Data
 {
     public class ApplicationDbContext : DbContext
@@ -19,7 +19,7 @@ namespace Programming_7312_Part_1.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure Event entity
+            // ==================================== Configure Event entity ================================
             modelBuilder.Entity<Event>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -33,7 +33,7 @@ namespace Programming_7312_Part_1.Data
                 entity.Property(e => e.ViewCount).HasDefaultValue(0);
                 entity.Property(e => e.CreatedDate).HasDefaultValueSql("datetime('now')");
 
-                // Configure Tags as JSON
+                //=============== Configure Tags as JSON =========================
                 entity.Property(e => e.Tags)
                     .HasConversion(
                         v => string.Join(",", v),
@@ -41,7 +41,7 @@ namespace Programming_7312_Part_1.Data
                     );
             });
 
-            // Configure Announcement entity
+            //================================== Configure Announcement entity=============================
             modelBuilder.Entity<Announcement>(entity =>
             {
                 entity.HasKey(a => a.Id);
@@ -53,7 +53,7 @@ namespace Programming_7312_Part_1.Data
                 entity.Property(a => a.CreatedDate).HasDefaultValueSql("datetime('now')");
             });
 
-            // Configure Contact entity
+            // ===========================Configure Contact entity================================
             modelBuilder.Entity<Contact>(entity =>
             {
                 entity.HasKey(c => c.Id);
@@ -68,7 +68,7 @@ namespace Programming_7312_Part_1.Data
                 entity.Property(c => c.CreatedDate).HasDefaultValueSql("datetime('now')");
             });
 
-            // Configure Issue entity
+            // ==========================Configure Issue entity===================================
             modelBuilder.Entity<Issue>(entity =>
             {
                 entity.HasKey(i => i.Id);
@@ -87,3 +87,5 @@ namespace Programming_7312_Part_1.Data
         }
     }
 }
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2 end @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
