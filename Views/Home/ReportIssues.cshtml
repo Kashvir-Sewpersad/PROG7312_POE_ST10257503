@@ -1,4 +1,4 @@
-﻿@model Programming_7312_Part_1.Models.Issue
+﻿pdate@model Programming_7312_Part_1.Models.Issue
 
 @{
     ViewData["Title"] = "Report Issues";
@@ -58,10 +58,10 @@
                                     <i class="fas fa-check-circle me-3" style="font-size: 1.5rem; color: #28a745;"></i>
                                     <div>
                                         <h5 class="mb-1" style="color: #28a745;">Success!</h5>
-                                        <p class="mb-0" style="color: #e0e0e0;">@ViewBag.SuccessMessage</p>
+                                        <p class="mb-0" style="color: #000000;">@ViewBag.SuccessMessage</p>
                                         @if (!string.IsNullOrEmpty(ViewBag.EngagementMessage))
                                         {
-                                            <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">@ViewBag.EngagementMessage</p>
+                                            <p class="mb-0" style="color: #000000; font-size: 0.9rem;">@ViewBag.EngagementMessage</p>
                                         }
                                     </div>
                                 </div>
@@ -252,8 +252,8 @@
 
                                 <!------------------------------------------------ File upload  ----------------------------------------------->
                                 <div class="neon-form-group">
-                                    <label class="form-label">Attach Media (Optional)</label>
-                                    <div class="file-upload-wrapper">
+                                    <label class="form-label">Attach Media</label>
+                                    <div class="file-upload-wrapper" id="fileUploadWrapper">
                                         <input type="file" class="file-upload-input" name="attachment" id="attachment" accept="image/*,.pdf,.doc,.docx">
                                         <div class="file-upload-content">
                                             <div class="file-upload-icon">
@@ -335,7 +335,7 @@
 
 
 
-            // ------------------------------------------Filter options as user types-----------------------------------
+            // ------------------------------------------Filter options as user types-----------------------------------d t
             locationInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
                 locationOptions.forEach(option => {
@@ -423,15 +423,19 @@
             });
 
             const fileInput = document.getElementById('attachment');
-            const fileWrapper = document.querySelector('.file-upload-wrapper');
+            const fileWrapper = document.getElementById('fileUploadWrapper');
             if (fileInput && fileWrapper) {
+                // Initially set to red since no file is attached
+                fileWrapper.style.borderColor = '#dc3545';
+                fileWrapper.style.background = 'rgba(220, 53, 69, 0.1)';
+
                 fileInput.addEventListener('change', function() {
                     if (this.files.length > 0) {
                         fileWrapper.style.borderColor = '#28a745';
                         fileWrapper.style.background = 'rgba(40, 167, 69, 0.1)';
                     } else {
-                        fileWrapper.style.borderColor = 'rgba(37, 140, 251, 0.3)';
-                        fileWrapper.style.background = 'rgba(255, 255, 255, 0.02)';
+                        fileWrapper.style.borderColor = '#dc3545';
+                        fileWrapper.style.background = 'rgba(220, 53, 69, 0.1)';
                     }
                 });
             }

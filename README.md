@@ -209,10 +209,13 @@ Right-click solution → "Restore NuGet Packages"
 ---
 
 ### This project makes use of SQlite database, the configuration is done in appsettings.json
-### There is an automatic email responder api added to the code. the details shall removed for security reasons
+### There is an automatic email responder api added to the code which activates when aa user makes use of the contact form.
 ### To access and use the admin dashboard, use the hardcoded password ----- > 1234
 ### YouTube link as proof of functionality (POE)  : https://youtu.be/RJtLioPy0R0
 ### GitHub link (CURRENT POE before transfer) : https://github.com/Kashvir-Sewpersad/PROG7312_POE_ST10257503.git
+
+### I have implemented a system which send the tracking number via email to the user after filling out a service request or reporting an issue. 
+![img.png](img.png)
 
 ### Data stuctures & Algorythms used 
 
