@@ -319,12 +319,12 @@ Right-click solution → "Restore NuGet Packages"
  * https://chatgpt.com/share/6911d3be-08d0-8010-882a-0cda861ab809
  
  
- *  -------------current issues --> TO BE FIXED IN PART 3 OR REMOVED IN PART 3 ------------
+
    
-        the search event (not required as per poe  ) is not functioning correctly on local events
-        the images (not required as per poe ) displaying on local events are not static at the moment --> i tried to have it so when a user loggs into the system they can see diffrent events each time, this has colided with the recomendation and i made a mess of it
-        the admin cannont add an event if the active box is ticked ( not required as per poe )
-        the recomendation algorithm does not display searched event right on top of the paage, it is displaying correctly, just not at the right position on the page 
+       
+        
+       
+        
 
 
 
