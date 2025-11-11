@@ -57,7 +57,7 @@ namespace Programming_7312_Part_1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Announcements");
+                    b.ToTable("Announcements", (string)null);
                 });
 
             modelBuilder.Entity("Programming_7312_Part_1.Models.Contact", b =>
@@ -111,7 +111,7 @@ namespace Programming_7312_Part_1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Programming_7312_Part_1.Models.Event", b =>
@@ -176,7 +176,7 @@ namespace Programming_7312_Part_1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("Programming_7312_Part_1.Models.Issue", b =>
@@ -247,7 +247,7 @@ namespace Programming_7312_Part_1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Issues");
+                    b.ToTable("Issues", (string)null);
                 });
 #pragma warning restore 612, 618
         }
