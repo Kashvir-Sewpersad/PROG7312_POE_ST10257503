@@ -13,38 +13,43 @@ using Programming_7312_Part_1.Services;
  ///////////////////////////////////////////////////////////// REFEREMCES USED FOR THIS PROJECT //////////////////////////////////////////////////////////////////
 /*
  
- *Brevo.com. (2025). Brevo | Email Marketing Software, Automation & CRM. [online] Available at: https://www.brevo.com/?gad_source=1&gad_campaignid=23086271243&gbraid=0AAAAAp4YiPJM7xOPrXsppAUZnGIAu-LvQ&gclid=Cj0KCQjw6bfHBhDNARIsAIGsqLjfE68ZXXIQRwSdE_GX3qLjhs0mMFeMj1Idn_ShXWA3lIatJ3mTXQQaArjtEALw_wcB [Accessed 11 Oct. 2025].
+ * Brevo.com. (2025). Brevo | Email Marketing Software, Automation & CRM. [online] Available at: https://www.brevo.com/?gad_source=1&gad_campaignid=23086271243&gbraid=0AAAAAp4YiPJM7xOPrXsppAUZnGIAu-LvQ&gclid=Cj0KCQjw6bfHBhDNARIsAIGsqLjfE68ZXXIQRwSdE_GX3qLjhs0mMFeMj1Idn_ShXWA3lIatJ3mTXQQaArjtEALw_wcB  [Accessed 11 Oct. 2025].
 
- * GeeksforGeeks (2024). Queue Data Structure. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/queue-data-structure/.
+ * Desforges’s (2024). Queue Data Structure. [online] Desforges’s. Available at: https://www.geeksforgeeks.org/dsa/queue-data-structure/. [Accessed: 8 October  2025]
 
- *GeeksforGeeks (2024). Stack Data Structure. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/stack-data-structure/.
-
-
- *Caleb Curry (2024). SQLite Introduction - Beginners Guide to SQL and Databases. [online] YouTube. Available at: https://www.youtube.com/watch?v=8Xyn8R9eKB8.
+ * Desforges’s (2024). Stack Data Structure. [online] Desforges’s. Available at: https://www.geeksforgeeks.org/dsa/stack-data-structure/. [Accessed: 2 October  2025]
 
 
- *Sajjaad Khader (2025). Data Structures Explained for Beginners - How I Wish I was Taught. [online] YouTube. Available at: https://www.youtube.com/watch?v=O9v10jQkm5c.
+ * Caleb Curry (2024). SQLite Introduction - Beginners Guide to SQL and Databases. [online] YouTube. Available at: https://www.youtube.com/watch?v=8Xyn8R9eKB8.  [Accessed: 1 October  2025]
 
 
- * W3Schools (2019). AJAX Introduction. [online] W3schools.com. Available at: https://www.w3schools.com/xml/ajax_intro.asp.
+ * Sajjad Khader (2025). Data Structures Explained for Beginners - How I Wish I was Taught. [online] YouTube. Available at: https://www.youtube.com/watch?v=O9v10jQkm5c.  [Accessed: 7 October  2025]
 
 
- *SendGrid. (2024). Email API - Start for Free | SendGrid. [online] Available at: https://sendgrid.com/en-us/solutions/email-api.
+ * W3Schools (2019). AJAX Introduction. [online] W3schools.com. Available at: https://www.w3schools.com/xml/ajax_intro.asp.  [Accessed: 6 October  2025]
 
 
- *Code With RaiGenics (2021). Sorted list and sorted dictionary in C# | C# Collection Part 8. [online] YouTube. Available at: https://www.youtube.com/watch?v=QGw9ozFgSw0.
+ * SendGrid. (2024). Email API - Start for Free | SendGrid. [online] Available at: https://sendgrid.com/en-us/solutions/email-api.  [Accessed: 4 October  2025] 
 
 
- *Tech With RGenics (2021). C# List with example | List in C# | C# Collection Part 5. [online] YouTube. Available at: https://www.youtube.com/watch?v=bJEVvhcW8GU [Accessed 8 Oct. 2025].
+
+ * Code with Argenis (2021). Sorted list and sorted dictionary in C# | C# Collection Part 8. [online] YouTube. Available at: https://www.youtube.com/watch?v=QGw9ozFgSw0.  [Accessed: 5  November 2025] 
 
 
- *Tech With RGenics (2021). Stack in C# with real time example | C# Collection Part 10. [online] YouTube. Available at: https://www.youtube.com/watch?v=lzfNSP0DYeE&list=PL_xlJum5pRdDC-SCtuLI0D_m4KJcIsCLq&index=10 [Accessed 8 Oct. 2025].
+
+ * Tech with Organics (2021). C# List with example | List in C# | C# Collection Part 5. [online] YouTube. Available at: https://www.youtube.com/watch?v=bJEVvhcW8GU   [Accessed 8 Oct. 2025].
 
 
- *Tech With RGenics (2021). C# Collection Best Practices | Collection in C# | C# Collection part 15. [online] YouTube. Available at: https://www.youtube.com/watch?v=Ks0dDWNVURc&list=PL_xlJum5pRdDC-SCtuLI0D_m4KJcIsCLq&index=16 [Accessed 2 Oct. 2025].
+ * Tech with Organics (2021). Stack in C# with real time example | C# Collection Part 10. [online] YouTube. Available at: https://www.youtube.com/watch?v=lzfNSP0DYeE&list=PL_xlJum5pRdDC-SCtuLI0D_m4KJcIsCLq&index=10   [Accessed 8 Oct. 2025]. 
 
 
- *Tech With RGenics (2021). C# Dictionary with example | Dictionary in C# | C# Collection Part 6. [online] YouTube. Available at: https://www.youtube.com/watch?v=tx_JNYL0Img&list=PL_xlJum5pRdDC-SCtuLI0D_m4KJcIsCLq&index=6 [Accessed 7 Oct. 2025].
+ * Tech with Organics (2021). C# Collection Best Practices | Collection in C# | C# Collection part 15. [online] YouTube. Available at: https://www.youtube.com/watch?v=Ks0dDWNVURc&list=PL_xlJum5pRdDC-SCtuLI0D_m4KJcIsCLq&index=16  [Accessed 2 Oct. 2025].
+
+
+ * Tech with Organics (2021). C# Dictionary with example | Dictionary in C# | C# Collection Part 6. [online] YouTube. Available at: https://www.youtube.com/watch?v=tx_JNYL0Img&list=PL_xlJum5pRdDC-SCtuLI0D_m4KJcIsCLq&index=6  [Accessed 7 Oct. 2025].
+
+ * Veed.io. (2019). Veed.io. [online] Available at: https://www.veed.io/.  [Accessed: 1
+November 2025]
 
 
  */
